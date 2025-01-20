@@ -1,9 +1,34 @@
+import Image from "next/image";
+
 export function SideMenu() {
   return (
-    <aside className="w-56 bg-[rgb(36,39,48)]">
-      <div className="flex flex-col h-screen">
-        <div>menuTop</div>
-        <div className="ml-auto mt-auto">menuBottom</div>
+    <aside className="w-56 bg-[rgb(26,29,36)]">
+      <div className="h-screen px-4 pt-4 flex flex-col ">
+        <div className="TopSection">
+          <div className="border-2 border-white">Logo</div>
+          <div className="mt-4 border-2 border-white">Agenda</div>
+          <div className="mt-2 border-2 border-white">MainButton?</div>
+          <nav className="mt-4 MainNav border-2 border-white">
+            <ul>
+              <li>MainNav1</li>
+              <li>MainNav2</li>
+              <li>MainNav3</li>
+              <li>MainNav4</li>
+            </ul>
+          </nav>
+        </div>
+        <div className="mt-auto border-2 border-white">
+          <div className="border-2 border-white">
+            <Image
+              className="mx-auto"
+              alt="x"
+              src={"/spin.svg"}
+              width={100}
+              height={100}
+            />
+          </div>
+          <div>InfoBilder</div>
+        </div>
       </div>
     </aside>
   );
