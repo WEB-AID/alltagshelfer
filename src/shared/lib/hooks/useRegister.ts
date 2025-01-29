@@ -1,7 +1,10 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { axiosInstance } from "@/shared/api/axios";
+import axios from "axios";
+
+// Жестко заданный URL для бэкенда, чтобы обойти baseURL Vercel
+const API_BASE_URL = "https://alltagshelfer-nest-production.up.railway.app";
 
 // Тип данных, которые отправляются при логине
 interface LoginData {
@@ -18,17 +21,17 @@ interface RegisterResponse {
 }
 
 export const useRegister = () => {
-  // Мы передаем в useMutation объект с параметрами
   return useMutation<RegisterResponse, Error, LoginData>({
-    // Здесь мы передаем саму функцию, которая выполняет запрос
     mutationFn: async (data: LoginData): Promise<RegisterResponse> => {
-      const response = await axiosInstance.post<RegisterResponse>(
-        "/auth/register",
-        data
-      );
+      const fullUrl = `${API_BASE_URL}/auth/register`;
+      console.log("Sending request to:", fullUrl);
+
+      const response = await axios.post<RegisterResponse>(fullUrl, data, {
+        withCredentials: true, // Чтобы куки refresh-токена отправлялись
+      });
+
       return response.data;
     },
-    // Обработчики, которые будут выполнены по мере успеха или ошибки
     onSuccess: (data: RegisterResponse) => {
       const { email } = data;
       localStorage.setItem("email_current", email);
