@@ -6,6 +6,8 @@ import Block2 from "./Block2";
 import Block3 from "./Block3";
 import { RegisterForm } from "@/features/auth/ui/RegisterForm/RegisterForm";
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   return (
     <div className="flex flex-col">

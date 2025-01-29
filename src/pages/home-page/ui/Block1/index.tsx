@@ -1,3 +1,5 @@
+"use client";
+
 export default function Block1() {
   return (
     <div className="flex flex-col ">
