@@ -17,8 +17,6 @@ interface RegisterResponse {
   roles: ["USER" | "ADMIN"];
 }
 
-console.log("Base URL:", process.env.NEXT_PUBLIC_API_URL);
-
 export const useRegister = () => {
   // Мы передаем в useMutation объект с параметрами
   return useMutation<RegisterResponse, Error, LoginData>({
