@@ -1,5 +1,5 @@
-import HomePage from "@/pages/home-page";
+import HomePage from "@/views/home-page";
 
-export default async function Home() {
+export default function Page() {
   return <HomePage />;
 }

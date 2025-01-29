@@ -7,7 +7,8 @@ import Loading from "./loading";
 import { SideMenu } from "@/widgets/SideMenu";
 import { TopHeader } from "@/widgets/TopHeader";
 import { UnderFooter } from "@/widgets/UnderFooter";
-import TanStackProvider from "@/app/providers/TanStackProvider";
+// import { AppProvider } from "@/widgets/AppProvider";
+import { QueryProvider } from "@/shared/lib/providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -33,17 +34,15 @@ export default async function RootLayout({
   return (
     <html lang="en" className="dark">
       <head></head>
+
       <body className={clsx("antialiased", fontEn.className, fontRu.className)}>
         <div className="flex">
           <SideMenu />
           <div className="flex-1">
             <TopHeader />
-            <TanStackProvider>
-              {/* ✅ Теперь TanStack Query работает */}
-              <Suspense fallback={<Loading />}>
-                <main>{children}</main>
-              </Suspense>
-            </TanStackProvider>
+            <Suspense fallback={<Loading />}>
+              <QueryProvider>{children}</QueryProvider>
+            </Suspense>
             <UnderFooter />
           </div>
         </div>
