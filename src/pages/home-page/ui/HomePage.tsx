@@ -1,3 +1,5 @@
+"use client";
+
 import { LoginForm } from "@/features/auth/ui/LoginForm/LoginForm";
 import Block1 from "./Block1";
 import Block2 from "./Block2";
