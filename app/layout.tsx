@@ -4,6 +4,10 @@ import clsx from "clsx";
 import { Comfortaa, Rubik } from "next/font/google";
 import "./globals.css";
 import Loading from "./loading";
+import { SideMenu } from "@/widgets/SideMenu";
+import { TopHeader } from "@/widgets/TopHeader";
+import { UnderFooter } from "@/widgets/UnderFooter";
+import { QueryProvider } from "@/shared/lib/providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,13 +29,24 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   // const { X } = await params
+
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head></head>
       <body className={clsx("antialiased", fontEn.className, fontRu.className)}>
-        <Suspense fallback={<Loading />}>
-          <div>{children}</div>
-        </Suspense>
+        <div className="flex">
+          <SideMenu />
+          <div className="flex-1">
+            <TopHeader />
+            <QueryProvider>
+              {/* ✅ Теперь QueryClientProvider оборачивается тут */}
+              <Suspense fallback={<Loading />}>
+                <main>{children}</main>
+              </Suspense>
+            </QueryProvider>
+            <UnderFooter />
+          </div>
+        </div>
       </body>
     </html>
   );

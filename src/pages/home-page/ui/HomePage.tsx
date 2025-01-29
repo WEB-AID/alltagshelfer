@@ -1,73 +1,17 @@
-import { SideMenu } from "@/widgets/SideMenu";
-import { TopHeader } from "@/widgets/TopHeader";
-import { UnderFooter } from "@/widgets/UnderFooter";
+import { LoginForm } from "@/features/auth/ui/LoginForm/LoginForm";
+import Block1 from "./Block1";
+import Block2 from "./Block2";
+import Block3 from "./Block3";
+import { RegisterForm } from "@/features/auth/ui/RegisterForm/RegisterForm";
 
 export default function Home() {
   return (
-    <div className="flex">
-      <SideMenu />
-      <div className="flex-1">
-        <TopHeader />
-        <main className="">
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-          <div>_222222222222222222</div>
-        </main>
-        <UnderFooter />
-      </div>
+    <div className="flex flex-col">
+      <LoginForm />
+      <RegisterForm />
+      <Block1 />
+      <Block2 />
+      <Block3 />
     </div>
   );
 }

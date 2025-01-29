@@ -1,0 +1,37 @@
+import axios from "axios";
+
+export const axiosInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  withCredentials: true, // Для передачи refresh-token в cookies
+});
+
+// Перехватчик для обновления токенов
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("access_token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      try {
+        const { data } = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-tokens`,
+          {
+            withCredentials: true,
+          }
+        );
+        localStorage.setItem("access_token", data.accessToken);
+        error.config.headers.Authorization = `Bearer ${data.accessToken}`;
+        return axiosInstance(error.config);
+      } catch {
+        localStorage.removeItem("access_token");
+      }
+    }
+    return Promise.reject(error);
+  }
+);
