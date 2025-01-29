@@ -7,7 +7,7 @@ import Loading from "./loading";
 import { SideMenu } from "@/widgets/SideMenu";
 import { TopHeader } from "@/widgets/TopHeader";
 import { UnderFooter } from "@/widgets/UnderFooter";
-import { QueryProvider } from "@/shared/lib/providers/QueryProvider";
+import { AppProvider } from "@/app/providers/AppProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -38,12 +38,13 @@ export default async function RootLayout({
           <SideMenu />
           <div className="flex-1">
             <TopHeader />
-            <QueryProvider>
-              {/* ✅ Теперь QueryClientProvider оборачивается тут */}
+            <AppProvider>
+              {" "}
+              {/* ✅ Теперь TanStack Query работает */}
               <Suspense fallback={<Loading />}>
                 <main>{children}</main>
               </Suspense>
-            </QueryProvider>
+            </AppProvider>
             <UnderFooter />
           </div>
         </div>
