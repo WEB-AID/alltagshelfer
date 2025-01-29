@@ -20,7 +20,7 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401) {
       try {
         const { data } = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-tokens`,
+          `https://alltagshelfer-nest-production.up.railway.app/auth/refresh-tokens`,
           {
             withCredentials: true,
           }
