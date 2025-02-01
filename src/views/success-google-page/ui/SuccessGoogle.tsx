@@ -1,16 +1,19 @@
+"use client";
+
 import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { useSearchParams, useRouter } from "next/navigation";
 
 export default function AuthSuccess() {
   const router = useRouter();
-  const { token } = router.query;
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
 
   useEffect(() => {
     if (token) {
       // Сохраняем токен в localStorage
-      localStorage.setItem("accessToken", token as string);
+      localStorage.setItem("accessToken", token);
 
-      // Перенаправляем на защищённую страницу
+      // Перенаправляем на главную страницу
       router.push("/");
     }
   }, [router, token]);
