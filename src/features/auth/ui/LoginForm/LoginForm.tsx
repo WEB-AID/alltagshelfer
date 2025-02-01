@@ -10,6 +10,7 @@ export const LoginForm = () => {
     e.preventDefault();
 
     const form = e.target as HTMLFormElement;
+    // Тут руками телА запросов собирать (в апи конечно)
     const data = {
       email: form.email.value,
       password: form.password.value,
@@ -20,7 +21,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="m-2">
       <input type="email" name="email" placeholder="Email" />
       <input type="password" name="password" placeholder="Пароль" />
       <button type="submit" disabled={isPending}>

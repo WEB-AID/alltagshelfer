@@ -20,7 +20,7 @@ export const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="m-2">
       <input type="email" name="email" placeholder="Email" />
       <input type="password" name="password" placeholder="Пароль" />
       <button type="submit" disabled={isPending}>
