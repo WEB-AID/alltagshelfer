@@ -38,7 +38,7 @@ export const useLogin = () => {
 
       // 4️⃣ Получаем данные пользователя
       try {
-        const userResponse = await axiosInstance.get("/user/me", {
+        const userResponse = await axiosInstance.get("/user/info/me", {
           headers: {
             Authorization: `${accessToken}`, // Убедись, что токен передаётся
           },
