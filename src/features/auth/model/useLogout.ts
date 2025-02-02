@@ -8,6 +8,8 @@ export const useLogout = () => {
 
   return async () => {
     try {
+      console.log("Now logout will begin");
+
       await axiosInstance.get("/auth/logout"); // Логаут на сервере
     } catch (error) {
       console.error("Ошибка при логауте:", error);
