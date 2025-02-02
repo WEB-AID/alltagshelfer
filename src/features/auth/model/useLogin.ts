@@ -28,6 +28,7 @@ export const useLogin = () => {
 
       // 1️⃣ Сохраняем access_token
       localStorage.setItem("access_token", accessToken);
+      console.log(`data: ${data}`);
 
       // 2️⃣ Обновляем состояние авторизации
       setAuth(true);
