@@ -40,7 +40,7 @@ export const useLogin = () => {
       try {
         const userResponse = await axiosInstance.get("/user/info/me", {
           headers: {
-            Authorization: `${accessToken}`, // Убедись, что токен передаётся
+            Authorization: `${accessToken}`,
           },
         });
         setUser(userResponse.data);
