@@ -1,6 +1,6 @@
 "use client";
 
-import { useLogin } from "@/shared/lib/hooks/useLogin";
+import { useLogin } from "@/features/auth/model/useLogin";
 
 export const LoginForm = () => {
   const { mutate: login, isPending } = useLogin();
