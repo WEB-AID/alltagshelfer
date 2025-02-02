@@ -15,6 +15,7 @@ export default function AuthSuccess() {
         try {
           const accessToken = await verifyGoogleToken(token);
           localStorage.setItem("accessToken", accessToken);
+          console.error("Все ок перенаправляем на главную токен:", token);
           router.push("/");
         } catch (error) {
           console.error("Ошибка при проверке токена:", error);
