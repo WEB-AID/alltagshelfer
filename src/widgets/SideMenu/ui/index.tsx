@@ -2,12 +2,13 @@
 
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
+import { useLogout } from "@/features/auth/model/useLogout";
 import Image from "next/image";
 
 export function SideMenu() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const user = useUserStore((state) => state.user);
-  const logout = useAuthStore((state) => state.logout);
+  const logout = useLogout();
 
   return (
     <aside className="w-56 bg-[rgb(26,29,36)] hidden min-[860px]:block ">
