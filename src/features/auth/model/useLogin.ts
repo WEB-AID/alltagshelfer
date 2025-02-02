@@ -28,19 +28,23 @@ export const useLogin = () => {
 
       // 1️⃣ Сохраняем access_token
       localStorage.setItem("access_token", accessToken);
-      console.log(`data: ${data}`);
+      console.log(`Login successful. Access token: ${accessToken}`);
 
       // 2️⃣ Обновляем состояние авторизации
       setAuth(true);
 
-      // 3️⃣ Получаем данные пользователя
+      // 3️⃣ Явно ждем, пока токен установится
+      await new Promise((resolve) => setTimeout(resolve, 100)); // Микро-задержка для отладки
+
+      // 4️⃣ Получаем данные пользователя
       try {
-        const userResponse = await axiosInstance.get("/user/me");
-        setUser(userResponse.data); // Сохраняем данные пользователя
-        console.log(
-          `Login successful. User data: ${userResponse}`,
-          JSON.stringify(userResponse.data, null, 2)
-        );
+        const userResponse = await axiosInstance.get("/user/me", {
+          headers: {
+            Authorization: `${accessToken}`, // Убедись, что токен передаётся
+          },
+        });
+        setUser(userResponse.data);
+        console.log("User data:", userResponse.data);
       } catch (error) {
         console.error("Failed to fetch user data", error);
       }
