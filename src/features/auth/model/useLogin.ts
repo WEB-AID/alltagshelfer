@@ -38,7 +38,7 @@ export const useLogin = () => {
         const userResponse = await axiosInstance.get("/user/me");
         setUser(userResponse.data); // Сохраняем данные пользователя
         console.log(
-          "Login successful. User data:",
+          `Login successful. User data: ${userResponse.data}`,
           JSON.stringify(userResponse.data, null, 2)
         );
       } catch (error) {
