@@ -3,9 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useLogin } from "@/features/auth/model/useLogin";
+import { useLogin } from "@/shared/lib/hooks/useLogin";
+import Image from "next/image";
 
-export const LoginForm = () => {
+export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const { mutate: login, isPending } = useLogin();
 
   // Типизация события отправки формы
@@ -20,7 +21,16 @@ export const LoginForm = () => {
     };
 
     console.log("Submitting data:", data); // для проверки
-    login(data); // вызываем мутацию с данными
+    login(data, {
+      onSuccess: () => {
+        console.log("Login successful");
+        onSuccess(); // Закрываем диалог после успешного логина
+      },
+    });
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = "/api/auth/google"; // Редирект на Google OAuth
   };
 
   return (
@@ -28,13 +38,18 @@ export const LoginForm = () => {
       {/* <input type="email" name="email" placeholder="Email" />
       <input type="password" name="password" placeholder="Пароль" /> */}
       <div className="space-y-1">
-        <Label htmlFor="name">Name</Label>
-        <Input id="name" type="email" name="email" placeholder="Email" />
+        <Label htmlFor="nameLogin">Name</Label>
+        <Input
+          id="nameLogin"
+          type="email"
+          name="emailLogin"
+          placeholder="Email"
+        />
       </div>
       <div className="space-y-1">
-        <Label htmlFor="username">Username</Label>
+        <Label htmlFor="usernamelogin">Username</Label>
         <Input
-          id="username"
+          id="usernamelogin"
           type="password"
           name="password"
           placeholder="Пароль"
@@ -42,6 +57,16 @@ export const LoginForm = () => {
       </div>
       <Button className="mt-8" type="submit" disabled={isPending}>
         {isPending ? "Вход..." : "Войти"}
+      </Button>
+      {/* Google Auth Button */}
+      <Button
+        type="button"
+        variant="outline"
+        className="mt-4 w-full flex items-center justify-center gap-2"
+        onClick={handleGoogleLogin}
+      >
+        <Image src="/google-logo.svg" alt="Google" width={20} height={20} />
+        Войти через Google
       </Button>
     </form>
   );

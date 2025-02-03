@@ -7,7 +7,7 @@ import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
 import { axiosInstance } from "@/shared/api/axios";
 
-export default function AuthSuccess() {
+export default function AuthSuccess({ onSuccess }: { onSuccess: () => void }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -22,7 +22,6 @@ export default function AuthSuccess() {
           const accessToken = await verifyGoogleToken(token);
 
           localStorage.setItem("accessToken", accessToken);
-
           setAuth(true);
 
           const userResponse = await axiosInstance.get("/user/info/me", {
@@ -35,6 +34,7 @@ export default function AuthSuccess() {
 
           console.log("Все ок перенаправляем на главную токен:", token);
           console.log("Авторизация успешна:", userResponse.data);
+          onSuccess();
           router.push("/");
         } catch (error) {
           console.error("Ошибка при проверке токена:", error);
@@ -44,7 +44,7 @@ export default function AuthSuccess() {
     };
 
     handleAuth();
-  }, [token, router, setAuth, setUser]);
+  }, [token, router, setAuth, setUser, onSuccess]);
 
   return <div>Авторизация успешна, перенаправление...</div>;
 }

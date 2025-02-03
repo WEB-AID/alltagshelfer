@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,10 +13,15 @@ import {
 } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { RegisterTabs } from "../RegisterTabs/RegisterTabs";
+import { useState } from "react";
 
 export function AuthDialog() {
+  const [isOpen, setIsOpen] = useState(false); // Контроль состояния
+
+  const handleClose = () => setIsOpen(false); // Функция для закрытия диалога
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">Edit Profile</Button>
       </DialogTrigger>
@@ -27,7 +34,7 @@ export function AuthDialog() {
             </DialogDescription>
           </DialogHeader>
         </VisuallyHidden>
-        <RegisterTabs />
+        <RegisterTabs onSuccess={handleClose} />
         {/* <DialogClose /> */}
         {/* <DialogFooter>
           <Button type="submit">Save changes</Button>

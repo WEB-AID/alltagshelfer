@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRegister } from "@/shared/lib/hooks/useRegister";
 
-export const RegisterForm = () => {
+export const RegisterForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const { mutate: login, isPending } = useRegister();
 
   // Типизация события отправки формы
@@ -19,7 +19,12 @@ export const RegisterForm = () => {
     };
 
     console.log("Submitting data:", data); // для проверки
-    login(data); // вызываем мутацию с данными
+    login(data, {
+      onSuccess: () => {
+        console.log("Registration successful");
+        onSuccess(); // Закрываем диалог после успешного логина
+      },
+    }); // вызываем мутацию с данными
   };
 
   return (
@@ -27,13 +32,18 @@ export const RegisterForm = () => {
       {/* <input type="email" name="email" placeholder="Email" />
       <input type="password" name="password" placeholder="Пароль" /> */}
       <div className="space-y-1">
-        <Label htmlFor="name">Name</Label>
-        <Input id="name" type="email" name="email" placeholder="Email" />
+        <Label htmlFor="nameRegister">Name</Label>
+        <Input
+          id="nameRegister"
+          type="email"
+          name="emailRegister"
+          placeholder="Email"
+        />
       </div>
       <div className="space-y-1">
-        <Label htmlFor="username">Username</Label>
+        <Label htmlFor="usernameRegister">Username</Label>
         <Input
-          id="username"
+          id="usernameRegister"
           type="password"
           name="password"
           placeholder="Пароль"

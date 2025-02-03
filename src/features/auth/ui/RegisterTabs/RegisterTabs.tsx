@@ -12,7 +12,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { LoginForm } from "../LoginForm/LoginForm";
 import { RegisterForm } from "../RegisterForm/RegisterForm";
 
-export function RegisterTabs() {
+export function RegisterTabs({ onSuccess }: { onSuccess: () => void }) {
   return (
     <Tabs defaultValue="login" className="w-[400px] mt-6">
       <TabsList className="grid w-full grid-cols-2">
@@ -30,7 +30,7 @@ export function RegisterTabs() {
             </CardHeader>
           </VisuallyHidden>
           <CardContent className="space-y-2">
-            <LoginForm />
+            <LoginForm onSuccess={onSuccess} />
           </CardContent>
           {/* <CardFooter>
             <Button>Save changes</Button>
@@ -48,7 +48,7 @@ export function RegisterTabs() {
             </CardHeader>
           </VisuallyHidden>
           <CardContent className="space-y-2">
-            <RegisterForm />
+            <RegisterForm onSuccess={onSuccess} />
           </CardContent>
           {/* <CardFooter>
             <Button>Save password</Button>

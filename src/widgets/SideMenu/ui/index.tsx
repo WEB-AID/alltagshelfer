@@ -2,7 +2,7 @@
 
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
-import { useLogout } from "@/features/auth/model/useLogout";
+import { useLogout } from "@/shared/lib/hooks/useLogout";
 import Image from "next/image";
 
 export function SideMenu() {
