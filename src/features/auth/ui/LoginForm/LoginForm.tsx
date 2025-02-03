@@ -56,7 +56,11 @@ export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
           placeholder="Пароль"
         />
       </div>
-      <Button className="mt-8" type="submit" disabled={isPending}>
+      <Button
+        className="mt-4 w-full flex items-center justify-center gap-2"
+        type="submit"
+        disabled={isPending}
+      >
         {isPending ? "Вход..." : "Войти"}
       </Button>
       {/* Google Auth Button */}
