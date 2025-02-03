@@ -7,9 +7,7 @@ import Loading from "./loading";
 import { SideMenu } from "@/widgets/SideMenu";
 import { TopHeader } from "@/widgets/TopHeader";
 import { UnderFooter } from "@/widgets/UnderFooter";
-// import { AppProvider } from "@/widgets/AppProvider";
 import { QueryProvider } from "@/shared/lib/providers/QueryProvider";
-import { AuthProvider } from "@/app/providers/AuthProvidet";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -39,14 +37,12 @@ export default function RootLayout({
       <body className={clsx("antialiased", fontEn.className, fontRu.className)}>
         <div className="flex">
           <QueryProvider>
-            <AuthProvider>
-              <SideMenu />
-              <div className="flex-1">
-                <TopHeader />
-                <Suspense fallback={<Loading />}>{children}</Suspense>
-                <UnderFooter />
-              </div>
-            </AuthProvider>
+            <SideMenu />
+            <div className="flex-1">
+              <TopHeader />
+              <Suspense fallback={<Loading />}>{children}</Suspense>
+              <UnderFooter />
+            </div>
           </QueryProvider>
         </div>
         <div id="portal-root" />
