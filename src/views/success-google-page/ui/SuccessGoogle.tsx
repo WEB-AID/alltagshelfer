@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { verifyGoogleToken } from "@/shared/api/googleAuth";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
-// import { axiosInstance } from "@/shared/api/axios";
+import { axiosInstance } from "@/shared/api/axios";
 
 export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
   const router = useRouter();
@@ -24,16 +24,16 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
           localStorage.setItem("access_token", accessToken);
           setAuth(true);
 
-          // const userResponse = await axiosInstance.get("/user/info/me", {
-          //   headers: {
-          //     Authorization: `${accessToken}`,
-          //   },
-          // });
+          const userResponse = await axiosInstance.get("user/info/me", {
+            headers: {
+              Authorization: `${accessToken}`,
+            },
+          });
 
-          // setUser(userResponse.data);
+          setUser(userResponse.data);
 
           console.log("Все ок перенаправляем на главную токен:", token);
-          // console.log("Авторизация успешна:", userResponse.data);
+          console.log("Авторизация успешна:", userResponse.data);
           onSuccess?.();
           router.push("/");
         } catch (error) {
