@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+// import { Input } from "@/components/ui/input";
+// import { Label } from "@/components/ui/label";
 import { useLogin } from "@/shared/lib/hooks/useLogin";
 import Image from "next/image";
 
@@ -16,7 +16,7 @@ export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
     const form = e.target as HTMLFormElement;
     // Тут руками телА запросов собирать (в апи конечно)
     const data = {
-      email: form.email.value,
+      email: form.emailLogin.value,
       password: form.password.value,
     };
 
@@ -38,8 +38,8 @@ export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
       {/* <input type="email" name="email" placeholder="Email" />
       <input type="password" name="password" placeholder="Пароль" /> */}
       <div className="space-y-1">
-        <Label htmlFor="nameLogin">Name</Label>
-        <Input
+        {/* <Label htmlFor="nameLogin">Name</Label> */}
+        <input
           id="nameLogin"
           type="email"
           name="emailLogin"
@@ -47,8 +47,8 @@ export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
         />
       </div>
       <div className="space-y-1">
-        <Label htmlFor="usernamelogin">Username</Label>
-        <Input
+        {/* <Label htmlFor="usernamelogin">Username</Label> */}
+        <input
           id="usernamelogin"
           type="password"
           name="password"

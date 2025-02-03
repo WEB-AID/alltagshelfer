@@ -14,7 +14,7 @@ export const RegisterForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
     const form = e.target as HTMLFormElement;
     const data = {
-      email: form.email.value,
+      email: form.emailRegister.value,
       password: form.password.value,
     };
 
