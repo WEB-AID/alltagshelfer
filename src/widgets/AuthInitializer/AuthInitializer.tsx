@@ -11,24 +11,36 @@ export const AuthInitializer = () => {
 
   useEffect(() => {
     const refreshAccessToken = async () => {
-      try {
-        const response = await axiosInstance.get("/auth/refresh-tokens", {
-          withCredentials: true, // ВАЖНО для работы с HttpOnly куками
-        }); // Правильный эндпоинт
-        const newAccessToken = response.data.accessToken;
-        console.log(`new access token ${newAccessToken}`);
+      const accessToken = localStorage.getItem("access_token");
 
-        // Сохраняем новый access token
-        localStorage.setItem("access_token", newAccessToken);
+      if (accessToken || document.cookie.includes("refresh_token")) {
+        try {
+          const response = await axiosInstance.get("/auth/refresh-tokens", {
+            withCredentials: true, // ВАЖНО для работы с HttpOnly куками
+          }); // Правильный эндпоинт
+          const newAccessToken = response.data.accessToken;
+          console.log(`new access token ${newAccessToken}`);
 
-        // Устанавливаем состояние авторизации
-        setAuth(true);
+          // Сохраняем новый access token
+          localStorage.setItem("access_token", newAccessToken);
 
-        console.log(`Access token refreshed: ${newAccessToken}`);
-      } catch (error) {
-        console.error("Failed to refresh access token:", error);
-        localStorage.removeItem("access_token");
-        clearAuth();
+          // Устанавливаем состояние авторизации
+          if (newAccessToken) {
+            localStorage.setItem("access_token", newAccessToken);
+            setAuth(true);
+            console.log(`✅ Access token refreshed: ${newAccessToken}`);
+          } else {
+            throw new Error("No access token returned from server.");
+          }
+
+          console.log(`Access token refreshed: ${newAccessToken}`);
+        } catch (error) {
+          console.error("Failed to refresh access token:", error);
+          localStorage.removeItem("access_token");
+          clearAuth();
+        }
+      } else {
+        console.log("ℹ️ No tokens found, skipping auth initialization.");
       }
     };
 
