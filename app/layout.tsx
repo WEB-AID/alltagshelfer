@@ -9,6 +9,7 @@ import { TopHeader } from "@/widgets/TopHeader";
 import { UnderFooter } from "@/widgets/UnderFooter";
 // import { AppProvider } from "@/widgets/AppProvider";
 import { QueryProvider } from "@/shared/lib/providers/QueryProvider";
+import { useAuth } from "@/shared/lib/hooks/useAuth";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,12 +25,13 @@ const fontRu = Comfortaa({
   weight: ["700"],
 });
 
-export default async function RootLayout({
+export default function RootLayout({
   children, // & params
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   // const { X } = await params
+  useAuth();
 
   return (
     <html lang="en" className="dark">
