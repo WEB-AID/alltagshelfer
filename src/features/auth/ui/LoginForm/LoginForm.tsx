@@ -30,7 +30,8 @@ export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "/api/auth/google"; // Редирект на Google OAuth
+    window.location.href =
+      "https://alltagshelfer-nest-production.up.railway.app/api/auth/google"; // Редирект на Google OAuth
   };
 
   return (
