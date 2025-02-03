@@ -7,7 +7,7 @@ import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
 import { axiosInstance } from "@/shared/api/axios";
 
-export default function AuthSuccess({ onSuccess }: { onSuccess: () => void }) {
+export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -34,7 +34,7 @@ export default function AuthSuccess({ onSuccess }: { onSuccess: () => void }) {
 
           console.log("Все ок перенаправляем на главную токен:", token);
           console.log("Авторизация успешна:", userResponse.data);
-          onSuccess();
+          onSuccess?.();
           router.push("/");
         } catch (error) {
           console.error("Ошибка при проверке токена:", error);
