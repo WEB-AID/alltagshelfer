@@ -12,8 +12,11 @@ export const AuthInitializer = () => {
   useEffect(() => {
     const refreshAccessToken = async () => {
       try {
-        const response = await axiosInstance.get("auth/refresh-tokens"); // Правильный эндпоинт
+        const response = await axiosInstance.get("/auth/refresh-tokens", {
+          withCredentials: true, // ВАЖНО для работы с HttpOnly куками
+        }); // Правильный эндпоинт
         const newAccessToken = response.data.accessToken;
+        console.log(`new access token ${newAccessToken}`);
 
         // Сохраняем новый access token
         localStorage.setItem("access_token", newAccessToken);
