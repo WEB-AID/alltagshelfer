@@ -1,5 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useLogin } from "@/features/auth/model/useLogin";
 
 export const LoginForm = () => {
@@ -22,11 +25,24 @@ export const LoginForm = () => {
 
   return (
     <form onSubmit={onSubmit} className="m-2">
-      <input type="email" name="email" placeholder="Email" />
-      <input type="password" name="password" placeholder="Пароль" />
-      <button type="submit" disabled={isPending}>
+      {/* <input type="email" name="email" placeholder="Email" />
+      <input type="password" name="password" placeholder="Пароль" /> */}
+      <div className="space-y-1">
+        <Label htmlFor="name">Name</Label>
+        <Input id="name" type="email" name="email" placeholder="Email" />
+      </div>
+      <div className="space-y-1">
+        <Label htmlFor="username">Username</Label>
+        <Input
+          id="username"
+          type="password"
+          name="password"
+          placeholder="Пароль"
+        />
+      </div>
+      <Button className="mt-8" type="submit" disabled={isPending}>
         {isPending ? "Вход..." : "Войти"}
-      </button>
+      </Button>
     </form>
   );
 };
