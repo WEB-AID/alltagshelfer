@@ -39,13 +39,14 @@ export default async function RootLayout({
         <div className="flex">
           <SideMenu />
           <div className="flex-1">
-            <TopHeader />
-            <Suspense fallback={<Loading />}>
-              <QueryProvider>{children}</QueryProvider>
-            </Suspense>
-            <UnderFooter />
+            <QueryProvider>
+              <TopHeader />
+              <Suspense fallback={<Loading />}>{children}</Suspense>
+              <UnderFooter />
+            </QueryProvider>
           </div>
         </div>
+        <div id="portal-root" />
       </body>
     </html>
   );

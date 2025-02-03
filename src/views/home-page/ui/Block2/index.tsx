@@ -2,7 +2,7 @@
 
 export default function Block2() {
   return (
-    <div className="flex flex-col bg-[rgb(24,25,30)]">
+    <div className="flex flex-col bg-[rgb(24,25,30)] p-4">
       <div>_333333333333333333</div>
       <div>_333333333333333333</div>
       <div>_333333333333333333</div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { LoginForm, RegisterForm } from "@/features/auth/ui";
+import { LoginForm, RegisterForm } from "@/features/auth";
 import Block1 from "./Block1";
 import Block2 from "./Block2";
 import Block3 from "./Block3";
