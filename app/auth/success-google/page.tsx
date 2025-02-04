@@ -1,5 +1,6 @@
-import AuthSuccess from "@/views/success-google-page";
+// import AuthSuccess from "@/views/success-google-page";
 
 export default function Page() {
-  return <AuthSuccess />;
+  // return <AuthSuccess />;
+  return null;
 }
