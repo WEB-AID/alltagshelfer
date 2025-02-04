@@ -5,12 +5,20 @@ import { useEffect } from "react";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { axiosInstance } from "@/shared/api/axios";
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export const AuthInitializer = () => {
   const setAuth = useAuthStore((state) => state.setAuth);
   const clearAuth = useAuthStore((state) => state.clearAuth);
 
   useEffect(() => {
     const refreshAccessToken = async () => {
+      console.log("⏳ Starting 1-second delay...");
+
+      await delay(1000); // ИСКУССТВЕННАЯ ЗАДЕРЖКА на 1 секунду
+
+      console.log("✅ Delay complete. Continuing with token refresh...");
+
       const accessToken = localStorage.getItem("access_token");
 
       if (accessToken) {
@@ -38,6 +46,8 @@ export const AuthInitializer = () => {
           clearAuth();
         }
       } else {
+        //set zustand to NOT AUTHORISED
+
         console.log("ℹ️ No tokens found, skipping auth initialization.");
       }
     };
