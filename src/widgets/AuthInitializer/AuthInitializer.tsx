@@ -21,7 +21,7 @@ export const AuthInitializer = () => {
           const newAccessToken = response.data.accessToken;
           console.log(`new access token ${newAccessToken}`);
 
-          // Сохраняем новый access token
+          // Сохраняем новый access token.
           localStorage.setItem("access_token", newAccessToken);
 
           // Устанавливаем состояние авторизации
