@@ -21,7 +21,7 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
         try {
           const accessToken = await verifyGoogleToken(token);
 
-          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("access_token", accessToken);
           setAuth(true);
           console.log("Все ок перенаправляем на главную токен:", token);
 
