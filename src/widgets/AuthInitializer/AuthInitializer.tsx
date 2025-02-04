@@ -13,7 +13,7 @@ export const AuthInitializer = () => {
     const refreshAccessToken = async () => {
       const accessToken = localStorage.getItem("access_token");
 
-      if (accessToken || document.cookie.includes("refresh_token")) {
+      if (accessToken) {
         try {
           const response = await axiosInstance.get("/auth/refresh-tokens", {
             withCredentials: true, // ВАЖНО для работы с HttpOnly куками
@@ -22,7 +22,7 @@ export const AuthInitializer = () => {
           console.log(`new access token ${newAccessToken}`);
 
           // Сохраняем новый access token.
-          localStorage.setItem("access_token", newAccessToken);
+          // localStorage.setItem("access_token", newAccessToken);
 
           // Устанавливаем состояние авторизации
           if (newAccessToken) {
