@@ -12,7 +12,7 @@ export const AuthInitializer = () => {
     const refreshAccessToken = async () => {
       if (accessToken) {
         try {
-          const response = await axiosInstance.get("/auth/refresh-tokens", {
+          const response = await axiosInstance.get("auth/refresh-tokens", {
             withCredentials: true, // ВАЖНО для работы с HttpOnly куками
           }); // Правильный эндпоинт
           const newAccessToken = response.data.accessToken;
