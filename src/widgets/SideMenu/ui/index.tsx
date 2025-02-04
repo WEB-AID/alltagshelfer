@@ -21,7 +21,7 @@ export function SideMenu() {
           <div className="mt-2 border-2 border-white">MainButton?</div>
           <nav className="mt-4 MainNav border-2 border-white">
             <ul>
-              <li>MainNav1</li>
+              <li>MainNav11</li>
               <li>MainNav2</li>
               <li>MainNav3</li>
               <li>MainNav4</li>
