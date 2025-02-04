@@ -4,9 +4,12 @@
 import { useEffect } from "react";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { axiosInstance } from "@/shared/api/axios";
+import { useUserStore } from "@/entities/User/model/userStore";
 
 export const AuthInitializer = () => {
   const { accessToken, setAuth, clearAuth } = useAuthStore();
+  const setUser = useUserStore((state) => state.setUser);
+  const clearUser = useUserStore((state) => state.clearUser);
 
   useEffect(() => {
     const refreshAccessToken = async () => {
@@ -20,13 +23,21 @@ export const AuthInitializer = () => {
 
           // Сохраняем новый access token
           setAuth(newAccessToken);
-
           console.log(
             `✅setAuth true & Access token refreshed:${newAccessToken}`
           );
+
+          const userResponse = await axiosInstance.get("/user/info/me", {
+            headers: {
+              Authorization: `${newAccessToken}`, // Добавляем новый токен в заголовок
+            },
+          });
+          setUser(userResponse.data);
+          console.log("✅ User data synced:", userResponse.data);
         } catch (error) {
           console.error("Failed to refresh access token:", error);
           clearAuth();
+          clearUser();
         }
       } else {
         console.log("ℹ️ No tokens found, skipping auth initialization.");
@@ -34,7 +45,7 @@ export const AuthInitializer = () => {
     };
 
     refreshAccessToken();
-  }, [accessToken, clearAuth, setAuth]);
+  }, [accessToken, clearAuth, clearUser, setAuth, setUser]);
 
   return null; // Не рендерит UI
 };
