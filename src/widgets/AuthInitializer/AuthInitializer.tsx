@@ -5,8 +5,6 @@ import { useEffect } from "react";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { axiosInstance } from "@/shared/api/axios";
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 export const AuthInitializer = () => {
   const setAuth = useAuthStore((state) => state.setAuth);
   const clearAuth = useAuthStore((state) => state.clearAuth);
@@ -16,11 +14,6 @@ export const AuthInitializer = () => {
       const accessToken = localStorage.getItem("access_token");
 
       if (accessToken) {
-        console.log("⏳ Starting 1-second delay...");
-
-        await delay(1000); // ИСКУССТВЕННАЯ ЗАДЕРЖКА на 1 секунду
-
-        console.log("✅ Delay complete. Continuing with token refresh...");
         try {
           const response = await axiosInstance.get("/auth/refresh-tokens", {
             withCredentials: true, // ВАЖНО для работы с HttpOnly куками
