@@ -34,8 +34,7 @@ export const AuthInitializer = () => {
     };
 
     refreshAccessToken();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [accessToken, clearAuth, setAuth]);
 
   return null; // Не рендерит UI
 };
