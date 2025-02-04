@@ -8,7 +8,10 @@ export const useLogout = () => {
 
   return async () => {
     try {
-      await axiosInstance.get("/auth/logout"); // Логаут на сервере
+      console.log("Now logout will begin");
+
+      // 1️⃣ Вызываем сервер для удаления refresh-токена и куки
+      await axiosInstance.get("/auth/logout");
     } catch (error) {
       console.error("Ошибка при логауте:", error);
     } finally {
