@@ -32,8 +32,6 @@ export const AuthInitializer = () => {
           } else {
             throw new Error("No access token returned from server.");
           }
-
-          console.log(`Access token refreshed: ${newAccessToken}`);
         } catch (error) {
           console.error("Failed to refresh access token:", error);
           localStorage.removeItem("access_token");

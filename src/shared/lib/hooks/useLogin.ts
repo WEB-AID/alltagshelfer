@@ -19,8 +19,11 @@ export const useLogin = () => {
   const setUser = useUserStore((state) => state.setUser);
 
   return useMutation<LoginResponse, Error, LoginData>({
-    mutationFn: async (data: LoginData) => {
-      const response = await axiosInstance.post("/auth/login", data);
+    mutationFn: async (data: LoginData): Promise<LoginResponse> => {
+      const response = await axiosInstance.post<LoginResponse>(
+        "/auth/login",
+        data
+      );
       return response.data;
     },
     onSuccess: async (data) => {
