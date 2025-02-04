@@ -21,7 +21,7 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
         try {
           const accessToken = await verifyGoogleToken(token);
 
-          localStorage.setItem("access_token", accessToken);
+          // localStorage.setItem("access_token", accessToken);
           setAuth(accessToken);
 
           const userResponse = await axiosInstance.get("user/info/me", {

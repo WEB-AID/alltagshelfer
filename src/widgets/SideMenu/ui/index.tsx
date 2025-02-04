@@ -13,7 +13,7 @@ export function SideMenu() {
 
   return (
     <aside className="w-56 bg-[rgb(26,29,36)] hidden min-[860px]:block ">
-      <AuthInitializer /> {/* Инициализация авторизации */}
+      <AuthInitializer /> Инициализация авторизации
       <div className="h-screen px-4 pt-4 flex flex-col ">
         <div className="TopSection">
           <div className="border-2 border-white">Logo</div>

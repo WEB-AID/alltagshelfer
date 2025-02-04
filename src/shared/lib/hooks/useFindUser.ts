@@ -16,15 +16,8 @@ export const useFindUser = () => {
   return useMutation<UserResponse, Error, FindUserData>({
     mutationFn: async (idOrEmail: FindUserData): Promise<UserResponse> => {
       const response = await axiosInstance.get<UserResponse>(
-        `/user/${idOrEmail}`
+        `user/${idOrEmail}`
       );
-
-      // ✅ Если сервер прислал новый токен в заголовке — обновляем его в localStorage
-      const newAccessToken = response.headers["x-new-access-token"];
-      if (newAccessToken) {
-        localStorage.setItem("access_token", newAccessToken);
-        console.log("🔄 Новый accessToken сохранён:", newAccessToken);
-      }
 
       return response.data;
     },
