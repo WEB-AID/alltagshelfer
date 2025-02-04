@@ -1,4 +1,4 @@
-// import { AuthDialog } from "@/features/auth";
+import { AuthDialog } from "@/features/auth";
 import { DropdownTopMenu } from "@/shared/ui";
 
 export function TopHeader() {
@@ -9,7 +9,9 @@ export function TopHeader() {
         <div className="w-64 h-full flex items-center border-2 border-white">
           <div className="Input ml-1 border-2 border-white">SearchField</div>
         </div>
-        <div className="relative">{/* <AuthDialog /> */}</div>
+        <div className="relative">
+          <AuthDialog />
+        </div>
         <div className="ml-auto border-2 border-white">
           <div className="p-1">RegistrationField</div>
         </div>

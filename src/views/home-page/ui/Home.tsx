@@ -1,6 +1,5 @@
 "use client";
 
-import { LoginForm, RegisterForm } from "@/features/auth";
 // import { LoginForm, RegisterForm } from "@/features/auth";
 import Block1 from "./Block1";
 import Block2 from "./Block2";
@@ -12,8 +11,6 @@ export default function Home() {
   return (
     <main>
       <div className="flex flex-col">
-        <LoginForm />
-        <RegisterForm />
         <Block1 />
         <Block2 />
         <Block3 />

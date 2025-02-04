@@ -1,83 +1,83 @@
-// "use client";
+"use client";
 
-// import { useEffect } from "react";
-// import { useSearchParams, useRouter } from "next/navigation";
-// import { verifyGoogleToken } from "@/shared/api/googleAuth";
-// import { useAuthStore } from "@/entities/Auth/model/authStore";
-// import { useUserStore } from "@/entities/User/model/userStore";
-// import { axiosInstance } from "@/shared/api/axios";
+import { useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { verifyGoogleToken } from "@/shared/api/googleAuth";
+import { useAuthStore } from "@/entities/Auth/model/authStore";
+import { useUserStore } from "@/entities/User/model/userStore";
+import { axiosInstance } from "@/shared/api/axios";
 
-// export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
-//   const router = useRouter();
-//   const searchParams = useSearchParams();
-//   const token = searchParams.get("token");
+export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
 
-//   const setAuth = useAuthStore((state) => state.setAuth);
-//   const setUser = useUserStore((state) => state.setUser);
+  const setAuth = useAuthStore((state) => state.setAuth);
+  const setUser = useUserStore((state) => state.setUser);
 
-//   useEffect(() => {
-//     const handleAuth = async () => {
-//       if (token) {
-//         try {
-//           const accessToken = await verifyGoogleToken(token);
+  useEffect(() => {
+    const handleAuth = async () => {
+      if (token) {
+        try {
+          const accessToken = await verifyGoogleToken(token);
 
-//           localStorage.setItem("access_token", accessToken);
-//           setAuth(true);
-//           console.log("Все ок перенаправляем на главную токен:", token);
+          localStorage.setItem("access_token", accessToken);
+          setAuth(true);
+          console.log("Все ок перенаправляем на главную токен:", token);
 
-//           const userResponse = await axiosInstance.get("user/info/me", {
-//             headers: {
-//               Authorization: `${accessToken}`,
-//             },
-//           });
+          const userResponse = await axiosInstance.get("user/info/me", {
+            headers: {
+              Authorization: `${accessToken}`,
+            },
+          });
 
-//           setUser(userResponse.data);
+          setUser(userResponse.data);
 
-//           onSuccess?.();
-//           router.push("/");
-//         } catch (error) {
-//           console.error("Ошибка при проверке токена:", error);
-//           router.push("/auth/error"); // редирект на страницу ошибки
-//         }
-//       }
-//     };
+          onSuccess?.();
+          router.push("/");
+        } catch (error) {
+          console.error("Ошибка при проверке токена:", error);
+          router.push("/auth/error"); // редирект на страницу ошибки
+        }
+      }
+    };
 
-//     handleAuth();
-//   }, [token, router, onSuccess, setAuth, setUser]);
+    handleAuth();
+  }, [token, router, onSuccess, setAuth, setUser]);
 
-//   // const setAuth = useAuthStore((state) => state.setAuth);
-//   // const setUser = useUserStore((state) => state.setUser);
+  // const setAuth = useAuthStore((state) => state.setAuth);
+  // const setUser = useUserStore((state) => state.setUser);
 
-//   // useEffect(() => {
-//   //   const handleAuth = async () => {
-//   //     if (token) {
-//   //       try {
-//   //         const accessToken = await verifyGoogleToken(token);
+  // useEffect(() => {
+  //   const handleAuth = async () => {
+  //     if (token) {
+  //       try {
+  //         const accessToken = await verifyGoogleToken(token);
 
-//   //         // localStorage.setItem("access_token", accessToken);
-//   //         setAuth(accessToken);
+  //         // localStorage.setItem("access_token", accessToken);
+  //         setAuth(accessToken);
 
-//   //         const userResponse = await axiosInstance.get("user/info/me", {
-//   //           headers: {
-//   //             Authorization: `${accessToken}`,
-//   //           },
-//   //         });
+  //         const userResponse = await axiosInstance.get("user/info/me", {
+  //           headers: {
+  //             Authorization: `${accessToken}`,
+  //           },
+  //         });
 
-//   //         setUser(userResponse.data);
+  //         setUser(userResponse.data);
 
-//   //         console.log("Все ок перенаправляем на главную токен:", token);
-//   //         console.log("Авторизация успешна:", userResponse.data);
-//   //         onSuccess?.();
-//   //         router.push("/");
-//   //       } catch (error) {
-//   //         console.error("Ошибка при проверке токена:", error);
-//   //         router.push("/auth/error");
-//   //       }
-//   //     }
-//   //   };
+  //         console.log("Все ок перенаправляем на главную токен:", token);
+  //         console.log("Авторизация успешна:", userResponse.data);
+  //         onSuccess?.();
+  //         router.push("/");
+  //       } catch (error) {
+  //         console.error("Ошибка при проверке токена:", error);
+  //         router.push("/auth/error");
+  //       }
+  //     }
+  //   };
 
-//   //   handleAuth();
-//   // }, [router, setAuth, setUser, onSuccess]);
+  //   handleAuth();
+  // }, [router, setAuth, setUser, onSuccess]);
 
-//   return <div>Авторизация успешна, перенаправление...</div>;
-// }
+  return <div>Авторизация успешна, перенаправление...</div>;
+}

@@ -1,1 +1,1 @@
-// export { default } from "./ui/SuccessGoogle";
+export { default } from "./ui/SuccessGoogle";
