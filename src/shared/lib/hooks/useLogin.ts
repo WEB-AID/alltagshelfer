@@ -27,11 +27,10 @@ export const useLogin = () => {
       const { accessToken } = data;
 
       // 1️⃣ Сохраняем access_token
-      localStorage.setItem("access_token", accessToken);
+      setAuth(accessToken);
       console.log(`Login successful. Access token: ${accessToken}`);
 
       // 2️⃣ Обновляем состояние авторизации
-      setAuth(accessToken);
 
       // 3️⃣ Явно ждем, пока токен установится
       await new Promise((resolve) => setTimeout(resolve, 100)); // Микро-задержка для отладки

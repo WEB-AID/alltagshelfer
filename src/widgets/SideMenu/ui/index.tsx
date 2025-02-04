@@ -3,7 +3,7 @@
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
 import { useLogout } from "@/shared/lib/hooks/useLogout";
-import { AuthInitializer } from "@/widgets/AuthInitializer/AuthInitializer";
+// import { AuthInitializer } from "@/widgets/AuthInitializer/AuthInitializer";
 import Image from "next/image";
 
 export function SideMenu() {
@@ -13,7 +13,7 @@ export function SideMenu() {
 
   return (
     <aside className="w-56 bg-[rgb(26,29,36)] hidden min-[860px]:block ">
-      <AuthInitializer />
+      {/* <AuthInitializer /> */}
       <div className="h-screen px-4 pt-4 flex flex-col ">
         <div className="TopSection">
           <div className="border-2 border-white">Logo</div>

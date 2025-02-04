@@ -1,43 +1,42 @@
 "use client";
 
+import Image from "next/image";
+import { useLogin } from "@/shared/lib/hooks/useLogin";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useLogin } from "@/shared/lib/hooks/useLogin";
-import Image from "next/image";
+
+const GOOGLE_AUTH_URL =
+  "https://alltagshelfer-nest-production.up.railway.app/api/auth/google";
 
 export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const { mutate: login, isPending } = useLogin();
 
-  // Типизация события отправки формы
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const form = e.target as HTMLFormElement;
-    // Тут руками телА запросов собирать (в апи конечно)
+
     const data = {
       email: form.emailLogin.value,
       password: form.password.value,
     };
 
-    console.log("Submitting data:", data); // для проверки
+    console.log("Submitting data for Login at const LoginForm():", data);
     login(data, {
       onSuccess: () => {
-        console.log("Login successful");
-        onSuccess(); // Закрываем диалог после успешного логина
+        console.log("Login successful at const LoginForm()");
+        onSuccess();
       },
     });
   };
 
   const handleGoogleLogin = () => {
-    window.location.href =
-      "https://alltagshelfer-nest-production.up.railway.app/api/auth/google"; // Редирект на Google OAuth
+    window.location.href = GOOGLE_AUTH_URL;
   };
 
   return (
     <form onSubmit={onSubmit} className="m-2">
-      {/* <input type="email" name="email" placeholder="Email" />
-      <input type="password" name="password" placeholder="Пароль" /> */}
       <div className="space-y-1">
         <Label htmlFor="nameLogin">Name</Label>
         <Input
@@ -53,7 +52,7 @@ export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
           id="usernamelogin"
           type="password"
           name="password"
-          placeholder="Пароль"
+          placeholder="Password"
         />
       </div>
       <Button
@@ -61,9 +60,8 @@ export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
         type="submit"
         disabled={isPending}
       >
-        {isPending ? "Вход..." : "Войти"}
+        {isPending ? "Checking..." : "Login"}
       </Button>
-      {/* Google Auth Button */}
       <Button
         type="button"
         variant="outline"
@@ -71,7 +69,7 @@ export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
         onClick={handleGoogleLogin}
       >
         <Image src="/google-logo.svg" alt="Google" width={20} height={20} />
-        Войти через Google
+        Login with Google
       </Button>
     </form>
   );

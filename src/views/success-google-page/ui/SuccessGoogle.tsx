@@ -44,7 +44,7 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
     };
 
     handleAuth();
-  }, [token, router, setAuth, setUser, onSuccess]);
+  }, [router, setAuth, setUser, onSuccess]);
 
   return <div>Авторизация успешна, перенаправление...</div>;
 }

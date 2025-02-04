@@ -29,7 +29,7 @@ export const useAuthStore = create<AuthState>()(
       clearAuth: () => set({ isAuthenticated: false, accessToken: null }),
     }),
     {
-      name: "auth-storage", // ключ для localStorage
+      name: "auth-storage",
     }
   )
 );
