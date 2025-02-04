@@ -13,15 +13,14 @@ export const AuthInitializer = () => {
 
   useEffect(() => {
     const refreshAccessToken = async () => {
-      console.log("⏳ Starting 1-second delay...");
-
-      await delay(1000); // ИСКУССТВЕННАЯ ЗАДЕРЖКА на 1 секунду
-
-      console.log("✅ Delay complete. Continuing with token refresh...");
-
       const accessToken = localStorage.getItem("access_token");
 
       if (accessToken) {
+        console.log("⏳ Starting 1-second delay...");
+
+        await delay(1000); // ИСКУССТВЕННАЯ ЗАДЕРЖКА на 1 секунду
+
+        console.log("✅ Delay complete. Continuing with token refresh...");
         try {
           const response = await axiosInstance.get("/auth/refresh-tokens", {
             withCredentials: true, // ВАЖНО для работы с HttpOnly куками
