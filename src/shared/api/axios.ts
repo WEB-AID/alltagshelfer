@@ -1,4 +1,7 @@
+import { useAuthStore } from "@/entities/Auth/model/authStore";
 import axios from "axios";
+
+const { accessToken } = useAuthStore.getState();
 
 export const axiosInstance = axios.create({
   baseURL: "https://alltagshelfer-nest-production.up.railway.app/",
@@ -7,9 +10,8 @@ export const axiosInstance = axios.create({
 
 // Перехватчик для обновления токенов
 axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("access_token");
-  if (token) {
-    config.headers.Authorization = `${token}`;
+  if (accessToken) {
+    config.headers.Authorization = `${accessToken}`;
   }
   return config;
 });

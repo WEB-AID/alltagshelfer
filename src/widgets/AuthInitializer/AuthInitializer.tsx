@@ -6,37 +6,26 @@ import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { axiosInstance } from "@/shared/api/axios";
 
 export const AuthInitializer = () => {
-  const setAuth = useAuthStore((state) => state.setAuth);
-  const clearAuth = useAuthStore((state) => state.clearAuth);
+  const { accessToken, setAuth, clearAuth } = useAuthStore();
 
   useEffect(() => {
     const refreshAccessToken = async () => {
-      const accessToken = localStorage.getItem("access_token");
-
-      if (accessToken || document.cookie.includes("refresh_token")) {
+      if (accessToken) {
         try {
           const response = await axiosInstance.get("/auth/refresh-tokens", {
             withCredentials: true, // ВАЖНО для работы с HttpOnly куками
           }); // Правильный эндпоинт
           const newAccessToken = response.data.accessToken;
-          console.log(`new access token ${newAccessToken}`);
+          console.log(`✅ Access token refreshed: ${newAccessToken}`);
 
           // Сохраняем новый access token
-          localStorage.setItem("access_token", newAccessToken);
+          setAuth(newAccessToken);
 
-          // Устанавливаем состояние авторизации
-          if (newAccessToken) {
-            localStorage.setItem("access_token", newAccessToken);
-            setAuth(true);
-            console.log(`✅ Access token refreshed: ${newAccessToken}`);
-          } else {
-            throw new Error("No access token returned from server.");
-          }
-
-          console.log(`Access token refreshed: ${newAccessToken}`);
+          console.log(
+            `✅setAuth true & Access token refreshed:${newAccessToken}`
+          );
         } catch (error) {
           console.error("Failed to refresh access token:", error);
-          localStorage.removeItem("access_token");
           clearAuth();
         }
       } else {
@@ -45,7 +34,8 @@ export const AuthInitializer = () => {
     };
 
     refreshAccessToken();
-  }, [setAuth, clearAuth]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return null; // Не рендерит UI
 };

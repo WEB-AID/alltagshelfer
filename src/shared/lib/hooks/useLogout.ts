@@ -16,7 +16,6 @@ export const useLogout = () => {
       console.error("Ошибка при логауте:", error);
     } finally {
       // 2️⃣ Очищаем локальные данные
-      localStorage.removeItem("access_token"); // Удаляем токен из localStorage
       clearAuth(); // Сбрасываем авторизацию в Zustand
       clearUser(); // Очищаем данные пользователя
     }

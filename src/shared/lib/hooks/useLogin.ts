@@ -31,7 +31,7 @@ export const useLogin = () => {
       console.log(`Login successful. Access token: ${accessToken}`);
 
       // 2️⃣ Обновляем состояние авторизации
-      setAuth(true);
+      setAuth(accessToken);
 
       // 3️⃣ Явно ждем, пока токен установится
       await new Promise((resolve) => setTimeout(resolve, 100)); // Микро-задержка для отладки
