@@ -3,7 +3,7 @@ import { useUserStore } from "@/entities/User/model/userStore";
 import { axiosInstance } from "@/shared/api/axios";
 
 export const useLogout = () => {
-  const logout = useAuthStore((state) => state.logout);
+  const clearAuth = useAuthStore((state) => state.clearAuth);
   const clearUser = useUserStore((state) => state.clearUser);
 
   return async () => {
@@ -13,8 +13,10 @@ export const useLogout = () => {
       console.error("Ошибка при логауте:", error);
     } finally {
       localStorage.removeItem("access_token"); // Удаляем accessToken из localStorage
-      logout(); // Обновляем Zustand: пользователь не авторизован
-      clearUser(); // Очищаем данные пользователя
+      clearAuth(); // Сбрасываем авторизацию в Zustand
+      clearUser();
+      // logout(); // Обновляем Zustand: пользователь не авторизован
+      // clearUser(); // Очищаем данные пользователя
     }
   };
 };

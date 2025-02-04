@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/shared/api/axios";
-// import { useAuthStore } from "@/entities/Auth/model/authStore";
-// import { useUserStore } from "@/entities/User/model/userStore";
+import { useAuthStore } from "@/entities/Auth/model/authStore";
+import { useUserStore } from "@/entities/User/model/userStore";
 
 // Тип данных, которые отправляются при логине
 interface LoginData {
@@ -15,8 +15,8 @@ interface LoginResponse {
 }
 
 export const useLogin = () => {
-  // const setAuth = useAuthStore((state) => state.setAuth);
-  // const setUser = useUserStore((state) => state.setUser);
+  const setAuth = useAuthStore((state) => state.setAuth);
+  const setUser = useUserStore((state) => state.setUser);
 
   return useMutation<LoginResponse, Error, LoginData>({
     mutationFn: async (data: LoginData) => {
@@ -32,22 +32,22 @@ export const useLogin = () => {
       console.log(`Login successful. Access token: ${accessToken}`);
 
       // 2️⃣ Обновляем состояние авторизации
-
+      setAuth(true);
       // 3️⃣ Явно ждем, пока токен установится
-      // await new Promise((resolve) => setTimeout(resolve, 100)); // Микро-задержка для отладки
+      await new Promise((resolve) => setTimeout(resolve, 100)); // Микро-задержка для отладки
 
-      // // 4️⃣ Получаем данные пользователя
-      // try {
-      //   const userResponse = await axiosInstance.get("/user/info/me", {
-      //     headers: {
-      //       Authorization: `${accessToken}`,
-      //     },
-      //   });
-      //   // setUser(userResponse.data);
-      //   console.log("User data:", userResponse.data);
-      // } catch (error) {
-      //   console.error("Failed to fetch user data", error);
-      // }
+      // 4️⃣ Получаем данные пользователя
+      try {
+        const userResponse = await axiosInstance.get("/user/info/me", {
+          headers: {
+            Authorization: `${accessToken}`,
+          },
+        });
+        setUser(userResponse.data);
+        console.log("User data:", userResponse.data);
+      } catch (error) {
+        console.error("Failed to fetch user data", error);
+      }
     },
   });
 };
