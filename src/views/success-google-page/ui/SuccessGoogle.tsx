@@ -60,7 +60,7 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-zinc-900 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-zinc-900 bg-opacity-80 z-50 flex items-center justify-center">
       <Dialog open={true}>
         <DialogContent
           hideCloseButton
