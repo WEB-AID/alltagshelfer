@@ -4,12 +4,15 @@
 import { useEffect } from "react";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { axiosInstance } from "@/shared/api/axios";
+import { useUserStore } from "@/entities/User/model/userStore";
 
 // const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const AuthInitializer = () => {
   const setAuth = useAuthStore((state) => state.setAuth);
   const clearAuth = useAuthStore((state) => state.clearAuth);
+  const setUser = useUserStore((state) => state.setUser);
+  const clearUser = useUserStore((state) => state.clearUser);
 
   useEffect(() => {
     const refreshAccessToken = async () => {
@@ -31,6 +34,14 @@ export const AuthInitializer = () => {
             localStorage.setItem("access_token", newAccessToken);
             setAuth(true);
             console.log(`✅ Access token refreshed: ${newAccessToken}`);
+
+            const userResponse = await axiosInstance.get("/user/info/me", {
+              headers: {
+                Authorization: `${newAccessToken}`, // Добавляем новый токен в заголовок
+              },
+            });
+            setUser(userResponse.data);
+            console.log("✅ User data synced:", userResponse.data);
           } else {
             throw new Error("No access token returned from server.");
           }
@@ -38,6 +49,7 @@ export const AuthInitializer = () => {
           console.error("Failed to refresh access token:", error);
           localStorage.removeItem("access_token");
           clearAuth();
+          clearUser();
         }
       } else {
         //set zustand to NOT AUTHORISED
