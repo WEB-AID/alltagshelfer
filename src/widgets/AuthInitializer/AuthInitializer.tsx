@@ -59,7 +59,8 @@ export const AuthInitializer = () => {
     };
 
     refreshAccessToken();
-  }, [setAuth, clearAuth]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return null;
 };
