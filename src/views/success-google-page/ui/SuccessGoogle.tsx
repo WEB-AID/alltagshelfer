@@ -58,7 +58,7 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
   }, [token, router, onSuccess, setAuth, setUser]);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-zinc-900 z-50 flex items-center justify-center">
       <Dialog open={true}>
         <DialogContent className="w-min bg-white rounded-xl shadow-xl">
           <DialogHeader>
