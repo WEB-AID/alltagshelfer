@@ -13,6 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import Image from "next/image";
 
 export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
   const router = useRouter();
@@ -63,6 +64,15 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
         <DialogContent className="w-min bg-white rounded-xl shadow-xl">
           <DialogHeader>
             <DialogTitle>Вход через Google</DialogTitle>
+            <div className="flex justify-center my-4">
+              <Image
+                src="/spin.svg" // Укажите правильный путь к вашему SVG
+                alt="Loading Spinner"
+                width={100}
+                height={100}
+                className="animate-spin-slow" // Кастомное вращение
+              />
+            </div>
             <DialogDescription>Пожалуйста, подождите...</DialogDescription>
           </DialogHeader>
         </DialogContent>
