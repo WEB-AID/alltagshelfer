@@ -6,6 +6,15 @@ import { verifyGoogleToken } from "@/shared/api/googleAuth";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
 import { axiosInstance } from "@/shared/api/axios";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
   const router = useRouter();
@@ -22,19 +31,24 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
           const accessToken = await verifyGoogleToken(token);
 
           // localStorage.setItem("access_token", accessToken);
-          setAuth(accessToken);
-          console.log("Все ок перенаправляем на главную токен:", accessToken);
 
-          const userResponse = await axiosInstance.get("user/info/me", {
-            headers: {
-              Authorization: `${accessToken}`,
-            },
-          });
+          if (accessToken) {
+            setAuth(accessToken);
+            console.log("Все ок перенаправляем на главную токен:", accessToken);
 
-          setUser(userResponse.data);
+            const userResponse = await axiosInstance.get("user/info/me", {
+              headers: {
+                Authorization: `${accessToken}`,
+              },
+            });
 
-          onSuccess?.();
-          router.push("/");
+            setUser(userResponse.data);
+
+            onSuccess?.();
+            router.push("/");
+          } else {
+            console.error("Ошибка при проверке access токена:", accessToken);
+          }
         } catch (error) {
           console.error("Ошибка при проверке токена:", error);
           router.push("/auth/error"); // редирект на страницу ошибки
@@ -79,5 +93,21 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
   //   handleAuth();
   // }, [router, setAuth, setUser, onSuccess]);
 
-  return <div>Авторизация успешна, перенаправление...</div>;
+  return (
+    <Dialog open={true}>
+      <DialogTrigger asChild>
+        <Button variant="outline">Edit Profile</Button>
+      </DialogTrigger>
+      <DialogContent className="w-min">
+        <DialogHeader>
+          <DialogTitle>Login or Register</DialogTitle>
+          <DialogDescription>
+            Provide more functionality for usage.
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  );
+
+  // return <div>Авторизация успешна, перенаправление...</div>;
 }
