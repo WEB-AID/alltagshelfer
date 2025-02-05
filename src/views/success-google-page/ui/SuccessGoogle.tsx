@@ -56,7 +56,8 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
     };
 
     handleAuth();
-  }, [token, router, onSuccess, setAuth, setUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="fixed inset-0 bg-zinc-900 z-50 flex items-center justify-center">
