@@ -60,30 +60,30 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-zinc-900 bg-opacity-80 z-50 flex items-center justify-center">
-      <Dialog open={true}>
-        <DialogContent
-          hideCloseButton
-          className="w-max bg-zinc-700 rounded-xl shadow-xl"
-        >
-          <DialogHeader>
-            <DialogTitle className="mx-auto">Вход через Google</DialogTitle>
-            <div className="flex justify-center my-4">
-              <Image
-                src="/spin.svg" // Укажите правильный путь к вашему SVG
-                alt="Loading Spinner"
-                width={100}
-                height={100}
-                className="animate-spin-slow my-4" // Кастомное вращение
-              />
-            </div>
-            <DialogDescription className="mx-auto">
-              Пожалуйста, подождите...
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
-    </div>
+    // <div className="fixed inset-0 bg-zinc-900 bg-opacity-80 z-50 flex items-center justify-center">
+    <Dialog open={true}>
+      <DialogContent
+        hideCloseButton
+        className="w-max bg-zinc-700 rounded-xl shadow-xl"
+      >
+        <DialogHeader>
+          <DialogTitle className="mx-auto">Вход через Google</DialogTitle>
+          <div className="flex justify-center my-4">
+            <Image
+              src="/spin.svg" // Укажите правильный путь к вашему SVG
+              alt="Loading Spinner"
+              width={100}
+              height={100}
+              className="animate-spin-slow my-4" // Кастомное вращение
+            />
+          </div>
+          <DialogDescription className="mx-auto">
+            Пожалуйста, подождите...
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+    // </div>
   );
 
   // return <div>Авторизация успешна, перенаправление...</div>;
