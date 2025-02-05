@@ -61,19 +61,24 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
   return (
     <div className="fixed inset-0 bg-zinc-900 z-50 flex items-center justify-center">
       <Dialog open={true}>
-        <DialogContent className="w-min bg-zinc-600 rounded-xl shadow-xl">
+        <DialogContent
+          hideCloseButton
+          className="w-max bg-zinc-700 rounded-xl shadow-xl"
+        >
           <DialogHeader>
-            <DialogTitle>Вход через Google</DialogTitle>
+            <DialogTitle className="mx-auto">Вход через Google</DialogTitle>
             <div className="flex justify-center my-4">
               <Image
                 src="/spin.svg" // Укажите правильный путь к вашему SVG
                 alt="Loading Spinner"
                 width={100}
                 height={100}
-                className="animate-spin-slow" // Кастомное вращение
+                className="animate-spin-slow my-4" // Кастомное вращение
               />
             </div>
-            <DialogDescription>Пожалуйста, подождите...</DialogDescription>
+            <DialogDescription className="mx-auto">
+              Пожалуйста, подождите...
+            </DialogDescription>
           </DialogHeader>
         </DialogContent>
       </Dialog>
