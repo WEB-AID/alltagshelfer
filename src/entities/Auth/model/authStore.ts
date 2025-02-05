@@ -1,9 +1,11 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface AuthState {
+  accessToken: string | null;
   isAuthenticated: boolean;
-  setAuth: (isAuthenticated: boolean) => void;
-  clearAuth: () => void; // Просто очищаем состояние
+  setAuth: (token: string) => void;
+  clearAuth: () => void;
 }
 
 interface LoginDialogState {
@@ -12,11 +14,19 @@ interface LoginDialogState {
   closeLoginDialog: VoidFunction;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  isAuthenticated: false,
-  setAuth: (isAuthenticated) => set({ isAuthenticated }),
-  clearAuth: () => set({ isAuthenticated: false }), // Теперь чисто Zustand
-}));
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      isAuthenticated: false,
+      accessToken: null,
+      setAuth: (token) => set({ isAuthenticated: true, accessToken: token }),
+      clearAuth: () => set({ isAuthenticated: false, accessToken: null }),
+    }),
+    {
+      name: "auth-storage",
+    }
+  )
+);
 
 export const useLoginDialogStore = create<LoginDialogState>()((set) => ({
   isLoginDialogOpen: false,
@@ -24,26 +34,8 @@ export const useLoginDialogStore = create<LoginDialogState>()((set) => ({
   closeLoginDialog: () => set(() => ({ isLoginDialogOpen: false })),
 }));
 
-// import { create } from "zustand";
-// import { persist } from "zustand/middleware";
-
-// interface AuthState {
-//   isAuthenticated: boolean;
-//   accessToken: string | null;
-//   setAuth: (token: string) => void;
-//   clearAuth: () => void;
-// }
-
-// export const useAuthStore = create<AuthState>()(
-//   persist(
-//     (set) => ({
-//       isAuthenticated: false,
-//       accessToken: null,
-//       setAuth: (token) => set({ isAuthenticated: true, accessToken: token }),
-//       clearAuth: () => set({ isAuthenticated: false, accessToken: null }),
-//     }),
-//     {
-//       name: "auth-storage",
-//     }
-//   )
-// );
+// export const useAuthStore = create<AuthState>((set) => ({
+//   isAuthenticated: false,
+//   setAuth: (isAuthenticated) => set({ isAuthenticated }),
+//   clearAuth: () => set({ isAuthenticated: false }), // Теперь чисто Zustand
+// }));

@@ -1,27 +1,28 @@
 // import { useAuthStore } from "@/entities/Auth/model/authStore";
+import { useAuthStore } from "@/entities/Auth/model/authStore";
 import axios from "axios";
 
-// const { accessToken } = useAuthStore.getState();
+const { accessToken } = useAuthStore.getState();
 
 export const axiosInstance = axios.create({
   baseURL: "https://alltagshelfer-nest-production.up.railway.app/",
   withCredentials: true,
 });
 
-axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("access_token");
-  if (token) {
-    config.headers.Authorization = `${token}`;
-  }
-  return config;
-});
-
 // axiosInstance.interceptors.request.use((config) => {
-//   if (accessToken) {
-//     config.headers.Authorization = `${accessToken}`;
+//   const token = localStorage.getItem("access_token");
+//   if (token) {
+//     config.headers.Authorization = `${token}`;
 //   }
 //   return config;
 // });
+
+axiosInstance.interceptors.request.use((config) => {
+  if (accessToken) {
+    config.headers.Authorization = `${accessToken}`;
+  }
+  return config;
+});
 
 // const { accessToken, setAuth, clearAuth } = useAuthStore();
 // axiosInstance.interceptors.response.use(
