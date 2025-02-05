@@ -23,7 +23,7 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
 
           localStorage.setItem("access_token", accessToken);
           setAuth(true);
-          console.log("Все ок перенаправляем на главную токен:", token);
+          console.log("Все ок перенаправляем на главную токен:", accessToken);
 
           const userResponse = await axiosInstance.get("user/info/me", {
             headers: {
