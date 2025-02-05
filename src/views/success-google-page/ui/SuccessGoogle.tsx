@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { verifyGoogleToken } from "@/shared/api/googleAuth";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
@@ -23,7 +23,7 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
   const setAuth = useAuthStore((state) => state.setAuth);
   const setUser = useUserStore((state) => state.setUser);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleAuth = async () => {
       if (token) {
         try {
