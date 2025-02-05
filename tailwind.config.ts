@@ -5,6 +5,9 @@ export default {
   content: ["./app/**/*.{js,ts,jsx,tsx,mdx}", "./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
+      animation: {
+        "spin-slow": "spin 2s linear infinite", // Вращение за 2 секунды
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
