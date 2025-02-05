@@ -6,14 +6,12 @@ import { verifyGoogleToken } from "@/shared/api/googleAuth";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
 import { axiosInstance } from "@/shared/api/axios";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
 export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
@@ -59,55 +57,52 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
     handleAuth();
   }, [token, router, onSuccess, setAuth, setUser]);
 
-  // const setAuth = useAuthStore((state) => state.setAuth);
-  // const setUser = useUserStore((state) => state.setUser);
-
-  // useEffect(() => {
-  //   const handleAuth = async () => {
-  //     if (token) {
-  //       try {
-  //         const accessToken = await verifyGoogleToken(token);
-
-  //         // localStorage.setItem("access_token", accessToken);
-  //         setAuth(accessToken);
-
-  //         const userResponse = await axiosInstance.get("user/info/me", {
-  //           headers: {
-  //             Authorization: `${accessToken}`,
-  //           },
-  //         });
-
-  //         setUser(userResponse.data);
-
-  //         console.log("Все ок перенаправляем на главную токен:", token);
-  //         console.log("Авторизация успешна:", userResponse.data);
-  //         onSuccess?.();
-  //         router.push("/");
-  //       } catch (error) {
-  //         console.error("Ошибка при проверке токена:", error);
-  //         router.push("/auth/error");
-  //       }
-  //     }
-  //   };
-
-  //   handleAuth();
-  // }, [router, setAuth, setUser, onSuccess]);
-
   return (
-    <Dialog open={true}>
-      <DialogTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
-      </DialogTrigger>
-      <DialogContent className="w-min">
-        <DialogHeader>
-          <DialogTitle>Login or Register</DialogTitle>
-          <DialogDescription>
-            Provide more functionality for usage.
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+      <Dialog open={true}>
+        <DialogContent className="w-min bg-white rounded-xl shadow-xl">
+          <DialogHeader>
+            <DialogTitle>Вход через Google</DialogTitle>
+            <DialogDescription>Пожалуйста, подождите...</DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 
   // return <div>Авторизация успешна, перенаправление...</div>;
 }
+
+// const setAuth = useAuthStore((state) => state.setAuth);
+// const setUser = useUserStore((state) => state.setUser);
+
+// useEffect(() => {
+//   const handleAuth = async () => {
+//     if (token) {
+//       try {
+//         const accessToken = await verifyGoogleToken(token);
+
+//         // localStorage.setItem("access_token", accessToken);
+//         setAuth(accessToken);
+
+//         const userResponse = await axiosInstance.get("user/info/me", {
+//           headers: {
+//             Authorization: `${accessToken}`,
+//           },
+//         });
+
+//         setUser(userResponse.data);
+
+//         console.log("Все ок перенаправляем на главную токен:", token);
+//         console.log("Авторизация успешна:", userResponse.data);
+//         onSuccess?.();
+//         router.push("/");
+//       } catch (error) {
+//         console.error("Ошибка при проверке токена:", error);
+//         router.push("/auth/error");
+//       }
+//     }
+//   };
+
+//   handleAuth();
+// }, [router, setAuth, setUser, onSuccess]);
