@@ -37,7 +37,7 @@ export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
   return (
     <form onSubmit={onSubmit} className="m-2">
-      <div className="space-y-1">
+      <div className="space-y-1 mt-2">
         <Label htmlFor="nameLogin">Name</Label>
         <Input
           id="nameLogin"
@@ -46,7 +46,7 @@ export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
           placeholder="Email"
         />
       </div>
-      <div className="space-y-1">
+      <div className="space-y-1 mt-2">
         <Label htmlFor="usernamelogin">Username</Label>
         <Input
           id="usernamelogin"
@@ -56,7 +56,7 @@ export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
         />
       </div>
       <Button
-        className="mt-4 w-full flex items-center justify-center gap-2"
+        className="mt-8 w-full flex items-center justify-center gap-2 "
         type="submit"
         disabled={isPending}
       >

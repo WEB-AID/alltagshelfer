@@ -4,7 +4,6 @@ import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
 import { useLogout } from "@/shared/lib/hooks/useLogout";
 import { AuthInitializer } from "@/widgets/AuthInitializer/AuthInitializer";
-// import { AuthInitializer } from "@/widgets/AuthInitializer/AuthInitializer";
 import Image from "next/image";
 
 export function SideMenu() {

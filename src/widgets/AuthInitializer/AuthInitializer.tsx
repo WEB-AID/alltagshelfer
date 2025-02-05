@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { axiosInstance } from "@/shared/api/axios";
 
+// const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export const AuthInitializer = () => {
   const setAuth = useAuthStore((state) => state.setAuth);
   const clearAuth = useAuthStore((state) => state.clearAuth);
@@ -14,17 +16,17 @@ export const AuthInitializer = () => {
       const accessToken = localStorage.getItem("access_token");
 
       if (accessToken) {
+        // console.log("⏳ Задержка 25 секунд старт ЯГАЙБЛЯ...");
+        // await delay(25000); // ИСКУССТВЕННАЯ ЗАДЕРЖКА на 1 секунду
+        // console.log("✅ Задержка кончилась сейчас делаем рефреш токен...");
+
         try {
           const response = await axiosInstance.get("/auth/refresh-tokens", {
-            withCredentials: true, // ВАЖНО для работы с HttpOnly куками
-          }); // Правильный эндпоинт
+            withCredentials: true,
+          });
           const newAccessToken = response.data.accessToken;
           console.log(`new access token ${newAccessToken}`);
 
-          // Сохраняем новый access token.
-          // localStorage.setItem("access_token", newAccessToken);
-
-          // Устанавливаем состояние авторизации
           if (newAccessToken) {
             localStorage.setItem("access_token", newAccessToken);
             setAuth(true);
@@ -47,7 +49,7 @@ export const AuthInitializer = () => {
     refreshAccessToken();
   }, [setAuth, clearAuth]);
 
-  return null; // Не рендерит UI
+  return null;
 };
 
 // // src/widgets/AuthInitializer/AuthInitializer.tsx
