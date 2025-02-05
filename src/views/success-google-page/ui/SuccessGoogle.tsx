@@ -61,7 +61,7 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
   return (
     <div className="fixed inset-0 bg-zinc-900 z-50 flex items-center justify-center">
       <Dialog open={true}>
-        <DialogContent className="w-min bg-white rounded-xl shadow-xl">
+        <DialogContent className="w-min bg-zinc-600 rounded-xl shadow-xl">
           <DialogHeader>
             <DialogTitle>Вход через Google</DialogTitle>
             <div className="flex justify-center my-4">
