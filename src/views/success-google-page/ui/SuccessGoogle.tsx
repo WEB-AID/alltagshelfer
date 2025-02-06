@@ -6,14 +6,14 @@ import { verifyGoogleToken } from "@/shared/api/googleAuth";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
 import { axiosInstance } from "@/shared/api/axios";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import Image from "next/image";
+// import {
+//   Dialog,
+//   DialogContent,
+//   DialogDescription,
+//   DialogHeader,
+//   DialogTitle,
+// } from "@/components/ui/dialog";
+// import Image from "next/image";
 
 export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
   const router = useRouter();
@@ -61,28 +61,29 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
 
   return (
     // <div className="fixed inset-0 bg-zinc-900 bg-opacity-80 z-50 flex items-center justify-center">
-    <Dialog open={true}>
-      <DialogContent
-        hideCloseButton
-        className="w-max bg-zinc-700 rounded-xl shadow-xl"
-      >
-        <DialogHeader>
-          <DialogTitle className="mx-auto">Вход через Google</DialogTitle>
-          <div className="flex justify-center my-4">
-            <Image
-              src="/spin.svg" // Укажите правильный путь к вашему SVG
-              alt="Loading Spinner"
-              width={100}
-              height={100}
-              className="animate-spin-slow my-4" // Кастомное вращение
-            />
-          </div>
-          <DialogDescription className="mx-auto">
-            Пожалуйста, подождите...
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+    <div>success google WAIT!!!!!!!!!!!</div>
+    // <Dialog open={true}>
+    //   <DialogContent
+    //     hideCloseButton
+    //     className="w-max bg-zinc-700 rounded-xl shadow-xl"
+    //   >
+    //     <DialogHeader>
+    //       <DialogTitle className="mx-auto">Вход через Google</DialogTitle>
+    //       <div className="flex justify-center my-4">
+    //         <Image
+    //           src="/spin.svg" // Укажите правильный путь к вашему SVG
+    //           alt="Loading Spinner"
+    //           width={100}
+    //           height={100}
+    //           className="animate-spin-slow my-4" // Кастомное вращение
+    //         />
+    //       </div>
+    //       <DialogDescription className="mx-auto">
+    //         Пожалуйста, подождите...
+    //       </DialogDescription>
+    //     </DialogHeader>
+    //   </DialogContent>
+    // </Dialog>
     // </div>
   );
 
