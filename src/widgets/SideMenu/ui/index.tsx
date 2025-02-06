@@ -28,6 +28,7 @@ export function SideMenu() {
               <li>MainNav4</li>
             </ul>
             <Link href="/auth/success-google">саксес гугл линк</Link>
+            <Link href="/page2">page2</Link>
           </nav>
         </div>
         <div>
