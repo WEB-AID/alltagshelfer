@@ -8,12 +8,6 @@ interface AuthState {
   clearAuth: () => void;
 }
 
-interface LoginDialogState {
-  isLoginDialogOpen: boolean;
-  openLoginDialog: VoidFunction;
-  closeLoginDialog: VoidFunction;
-}
-
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
@@ -27,15 +21,3 @@ export const useAuthStore = create<AuthState>()(
     }
   )
 );
-
-export const useLoginDialogStore = create<LoginDialogState>()((set) => ({
-  isLoginDialogOpen: false,
-  openLoginDialog: () => set(() => ({ isLoginDialogOpen: true })),
-  closeLoginDialog: () => set(() => ({ isLoginDialogOpen: false })),
-}));
-
-// export const useAuthStore = create<AuthState>((set) => ({
-//   isAuthenticated: false,
-//   setAuth: (isAuthenticated) => set({ isAuthenticated }),
-//   clearAuth: () => set({ isAuthenticated: false }), // Теперь чисто Zustand
-// }));

@@ -3,15 +3,13 @@ import { axiosInstance } from "@/shared/api/axios";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
 
-// Тип данных, которые отправляются при логине
 interface LoginData {
   email: string;
   password: string;
 }
 
-// Тип ответа от сервера
 interface LoginResponse {
-  accessToken: string; // Токен доступа
+  accessToken: string;
 }
 
 export const useLogin = () => {
@@ -28,49 +26,21 @@ export const useLogin = () => {
     },
     onSuccess: async (data) => {
       const { accessToken } = data;
-
-      // 1️⃣ Сохраняем access_token
-      // setAuth(accessToken);
-      // localStorage.setItem("access_token", accessToken);
       console.log(`Login successful. Access token: ${accessToken}`);
-
-      // 2️⃣ Обновляем состояние авторизации
       setAuth(accessToken);
-      // 3️⃣ Явно ждем, пока токен установится
-      await new Promise((resolve) => setTimeout(resolve, 100)); // Микро-задержка для отладки
 
-      // 4️⃣ Получаем данные пользователя
       try {
         const userResponse = await axiosInstance.get("/user/info/me", {
           headers: {
             Authorization: `${accessToken}`,
           },
         });
-        setUser(userResponse.data);
+
         console.log("User data:", userResponse.data);
+        setUser(userResponse.data);
       } catch (error) {
         console.error("Failed to fetch user data", error);
       }
     },
   });
 };
-
-// export const useLogin = () => {
-//   // Мы передаем в useMutation объект с параметрами
-//   return useMutation<LoginResponse, Error, LoginData>({
-//     // Здесь мы передаем саму функцию, которая выполняет запрос
-//     mutationFn: async (data: LoginData): Promise<LoginResponse> => {
-//       const response = await axiosInstance.post<LoginResponse>(
-//         "/auth/login",
-//         data
-//       );
-//       return response.data;
-//     },
-//     // Обработчики, которые будут выполнены по мере успеха или ошибки
-//     onSuccess: (data: LoginResponse) => {
-//       const { accessToken } = data;
-//       localStorage.setItem("access_token", accessToken);
-//       console.log(`Login successful. Access token: ${accessToken}`);
-//     },
-//   });
-// };
