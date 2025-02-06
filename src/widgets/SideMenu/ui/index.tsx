@@ -5,7 +5,7 @@ import { useUserStore } from "@/entities/User/model/userStore";
 import { useLogout } from "@/shared/lib/hooks/useLogout";
 import { AuthInitializer } from "@/widgets/AuthInitializer/AuthInitializer";
 import Image from "next/image";
-import Link from "next/link";
+// import Link from "next/link";
 
 export function SideMenu() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -27,7 +27,7 @@ export function SideMenu() {
               <li>MainNav3</li>
               <li>MainNav4</li>
             </ul>
-            <Link href="/auth/success-google">саксес гугл линк</Link>
+            {/* <Link href="/auth/success-google">саксес гугл линк</Link> */}
           </nav>
         </div>
         <div>
