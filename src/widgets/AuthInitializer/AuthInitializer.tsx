@@ -5,15 +5,47 @@ import { useEffect, useState } from "react";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { axiosInstance } from "@/shared/api/axios";
 import { useUserStore } from "@/entities/User/model/userStore";
+import { usePathname } from "next/navigation";
 
 // const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const AuthInitializer = () => {
+  const pathname = usePathname();
   const setUser = useUserStore((state) => state.setUser);
   const clearUser = useUserStore((state) => state.clearUser);
   const { accessToken, setAuth, clearAuth } = useAuthStore();
 
   const [isRehydrated, setIsRehydrated] = useState(false);
+
+  // useEffect(() => {
+  //   const handleStorageChange = (event: StorageEvent) => {
+  //     if (event.key === "auth-storage") {
+  //       console.log(
+  //         "🔄 Данные авторизации изменены в другой вкладке. Обновляем Zustand..."
+  //       );
+
+  //       // Загружаем новые данные из localStorage
+  //       const storedAuth = localStorage.getItem("auth-storage");
+  //       if (storedAuth) {
+  //         try {
+  //           const parsed = JSON.parse(storedAuth);
+  //           if (parsed.state.accessToken) {
+  //             setAuth(parsed.state.accessToken);
+  //             console.log(
+  //               "✅ Zustand синхронизирован с новым токеном:",
+  //               parsed.state.accessToken
+  //             );
+  //           }
+  //         } catch (error) {
+  //           console.error("❌ Ошибка парсинга токена из localStorage:", error);
+  //         }
+  //       }
+  //     }
+  //   };
+
+  //   window.addEventListener("storage", handleStorageChange);
+  //   return () => window.removeEventListener("storage", handleStorageChange);
+  // }, [setAuth]);
 
   useEffect(() => {
     const hydrateStore = async () => {
@@ -29,6 +61,13 @@ export const AuthInitializer = () => {
   }, []);
 
   useEffect(() => {
+    if (pathname === "/auth/google-success") {
+      console.log(
+        "🚫 Находимся на /auth/google-success, пропускаем refresh токенов."
+      );
+      return;
+    }
+
     const refreshAccessToken = async () => {
       if (accessToken) {
         // console.log("⏳ Задержка 25 секунд старт ЯГАЙБЛЯ...");

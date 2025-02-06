@@ -2,7 +2,7 @@
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import axios from "axios";
 
-const { accessToken } = useAuthStore.getState();
+// const { accessToken } = useAuthStore.getState();
 
 export const axiosInstance = axios.create({
   baseURL: "https://alltagshelfer-nest-production.up.railway.app/",
@@ -18,11 +18,19 @@ export const axiosInstance = axios.create({
 // });
 
 axiosInstance.interceptors.request.use((config) => {
+  const accessToken = useAuthStore.getState().accessToken; // Динамически берём актуальный токен
   if (accessToken) {
     config.headers.Authorization = `${accessToken}`;
   }
   return config;
 });
+
+// axiosInstance.interceptors.request.use((config) => {
+//   if (accessToken) {
+//     config.headers.Authorization = `${accessToken}`;
+//   }
+//   return config;
+// });
 
 // const { accessToken, setAuth, clearAuth } = useAuthStore();
 // axiosInstance.interceptors.response.use(
