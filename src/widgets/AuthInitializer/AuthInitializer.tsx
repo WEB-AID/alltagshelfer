@@ -17,35 +17,33 @@ export const AuthInitializer = () => {
 
   const [isRehydrated, setIsRehydrated] = useState(false);
 
-  // useEffect(() => {
-  //   const handleStorageChange = (event: StorageEvent) => {
-  //     if (event.key === "auth-storage") {
-  //       console.log(
-  //         "🔄 Данные авторизации изменены в другой вкладке. Обновляем Zustand..."
-  //       );
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === "auth-storage") {
+        console.log(
+          "🔄 Данные авторизации изменены в другой вкладке. Обновляем Zustand..."
+        );
 
-  //       // Загружаем новые данные из localStorage
-  //       const storedAuth = localStorage.getItem("auth-storage");
-  //       if (storedAuth) {
-  //         try {
-  //           const parsed = JSON.parse(storedAuth);
-  //           if (parsed.state.accessToken) {
-  //             setAuth(parsed.state.accessToken);
-  //             console.log(
-  //               "✅ Zustand синхронизирован с новым токеном:",
-  //               parsed.state.accessToken
-  //             );
-  //           }
-  //         } catch (error) {
-  //           console.error("❌ Ошибка парсинга токена из localStorage:", error);
-  //         }
-  //       }
-  //     }
-  //   };
+        // Обновляем состояние из localStorage
+        const storedAuth = localStorage.getItem("auth-storage");
 
-  //   window.addEventListener("storage", handleStorageChange);
-  //   return () => window.removeEventListener("storage", handleStorageChange);
-  // }, [setAuth]);
+        if (storedAuth) {
+          try {
+            const parsed = JSON.parse(storedAuth);
+            if (!parsed.state.accessToken) {
+              clearAuth();
+            }
+          } catch (error) {
+            console.error("❌ Ошибка парсинга auth-storage:", error);
+          }
+        }
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const hydrateStore = async () => {
