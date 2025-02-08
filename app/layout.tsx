@@ -7,7 +7,7 @@ import Loading from "./loading";
 import { SideMenu } from "@/widgets/SideMenu";
 import { TopHeader } from "@/widgets/TopHeader";
 import { UnderFooter } from "@/widgets/UnderFooter";
-import { QueryProvider } from "@/shared/lib/providers/QueryProvider";
+import { QueryProvider } from "@/app/providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",

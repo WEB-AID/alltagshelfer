@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
 import { fetchNewTokens } from "../fetchNewTokens";
-import { fetchUserInfo } from "../fetchUserInfo";
+import { fetchUserInfo } from "../../../../shared/api/fetchUserInfo";
 
 export const AuthInitializer = () => {
   const pathname = usePathname();
