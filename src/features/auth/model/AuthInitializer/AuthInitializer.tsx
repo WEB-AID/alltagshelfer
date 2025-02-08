@@ -3,9 +3,10 @@
 
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
-import { axiosInstance } from "@/shared/api/axios";
 import { useUserStore } from "@/entities/User/model/userStore";
 import { usePathname } from "next/navigation";
+import { fetchNewTokens } from "../fetchNewTokens";
+import { fetchUserInfo } from "@/shared/api/fetchUserInfo";
 
 // const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -51,23 +52,8 @@ export const AuthInitializer = () => {
   }, []);
 
   useEffect(() => {
-    const hydrateStore = async () => {
-      console.log("⏳ Начинаем гидратацию Zustand...");
-      if (useAuthStore.persist?.rehydrate) {
-        await useAuthStore.persist.rehydrate(); // Явно вызываем rehydrate
-      }
-      setIsRehydrated(true);
-      console.log("✅ Гидратация завершена.");
-    };
-
-    hydrateStore();
-  }, []);
-
-  useEffect(() => {
     if (pathname === "/auth/google-success") {
-      console.log(
-        "🚫 Находимся на /auth/google-success, пропускаем refresh токенов."
-      );
+      console.log("🚫 Skip refresh-tokens. OAuth tech page.");
       return;
     }
 
@@ -97,22 +83,15 @@ export const AuthInitializer = () => {
       }
 
       try {
-        const response = await axiosInstance.get("/auth/refresh-tokens", {
-          withCredentials: true,
-        });
-        const newAccessToken = response.data.accessToken;
+        const newAccessToken = await fetchNewTokens();
         console.log(`🔄 Новый access token: ${newAccessToken}`);
 
         if (newAccessToken) {
           setAuth(newAccessToken);
           console.log(`✅ Access token обновлён: ${newAccessToken}`);
 
-          const userResponse = await axiosInstance.get("/user/info/me", {
-            headers: {
-              Authorization: `${newAccessToken}`,
-            },
-          });
-          setUser(userResponse.data);
+          const userResponse = await fetchUserInfo();
+          setUser(userResponse);
           console.log("✅ User data обновлены:", userResponse.data);
         } else {
           throw new Error("❌ Сервер не вернул access token.");
@@ -129,6 +108,19 @@ export const AuthInitializer = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRehydrated]);
+
+  useEffect(() => {
+    const hydrateStore = async () => {
+      console.log("⏳ Начинаем гидратацию Zustand...");
+      if (useAuthStore.persist?.rehydrate) {
+        await useAuthStore.persist.rehydrate(); // Явно вызываем rehydrate
+      }
+      setIsRehydrated(true);
+      console.log("✅ Гидратация завершена.");
+    };
+
+    hydrateStore();
+  }, []);
 
   return null;
 };
