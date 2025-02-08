@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
@@ -13,7 +13,7 @@ export const AuthInitializer = () => {
   const clearUser = useUserStore((state) => state.clearUser);
   const { accessToken, setAuth, clearAuth } = useAuthStore();
 
-  // const [isRehydrated, setIsRehydrated] = useState(false);
+  const [isRehydrated, setIsRehydrated] = useState(false);
 
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
@@ -41,16 +41,16 @@ export const AuthInitializer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   const hydrateStore = async () => {
-  //     if (useAuthStore.persist?.rehydrate) {
-  //       await useAuthStore.persist.rehydrate(); // Явно вызываем rehydrate
-  //     }
-  //     setIsRehydrated(true);
-  //   };
+  useEffect(() => {
+    const hydrateStore = async () => {
+      if (useAuthStore.persist?.rehydrate) {
+        await useAuthStore.persist.rehydrate(); // Явно вызываем rehydrate
+      }
+      setIsRehydrated(true);
+    };
 
-  //   hydrateStore();
-  // }, []);
+    hydrateStore();
+  }, []);
 
   useEffect(() => {
     if (pathname === "/auth/google-success") {
@@ -99,11 +99,11 @@ export const AuthInitializer = () => {
       }
     };
 
-    // if (isRehydrated) {
-    refreshAccessToken();
-    // }
+    if (isRehydrated) {
+      refreshAccessToken();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isRehydrated]);
 
   return null;
 };
