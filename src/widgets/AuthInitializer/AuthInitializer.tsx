@@ -13,7 +13,7 @@ export const AuthInitializer = () => {
   const pathname = usePathname();
   const setUser = useUserStore((state) => state.setUser);
   const clearUser = useUserStore((state) => state.clearUser);
-  const { accessToken, setAuth, clearAuth } = useAuthStore();
+  const { setAuth, clearAuth } = useAuthStore();
 
   const [isRehydrated, setIsRehydrated] = useState(false);
 
@@ -26,6 +26,9 @@ export const AuthInitializer = () => {
 
         // Обновляем состояние из localStorage
         const storedAuth = localStorage.getItem("auth-storage");
+        // 1. Was AccessToken and now no. +++
+        // 2. Was no AccessToken and now it is
+        // 3. Was AccessToken and again it is
 
         if (storedAuth) {
           try {
@@ -67,40 +70,55 @@ export const AuthInitializer = () => {
     }
 
     const refreshAccessToken = async () => {
-      if (accessToken) {
-        // console.log("⏳ Задержка 25 секунд старт ЯГАЙБЛЯ...");
-        // await delay(25000); // ИСКУССТВЕННАЯ ЗАДЕРЖКА на 1 секунду
-        // console.log("✅ Задержка кончилась сейчас делаем рефреш токен...");
+      const storedAuth = localStorage.getItem("auth-storage");
 
+      let storedAccessToken: string | null = null;
+
+      if (storedAuth) {
         try {
-          const response = await axiosInstance.get("/auth/refresh-tokens", {
-            withCredentials: true,
-          });
-          const newAccessToken = response.data.accessToken;
-          console.log(`new access token ${newAccessToken}`);
+          const parsed = JSON.parse(storedAuth);
+          storedAccessToken = parsed.state.accessToken;
 
-          if (newAccessToken) {
-            setAuth(newAccessToken);
-            console.log(`✅ Access token refreshed: ${newAccessToken}`);
-
-            const userResponse = await axiosInstance.get("/user/info/me", {
-              headers: {
-                Authorization: `${newAccessToken}`, // Добавляем новый токен в заголовок
-              },
-            });
-            setUser(userResponse.data);
-            console.log("✅ User data synced:", userResponse.data);
-          } else {
-            throw new Error("No access token returned from server.");
+          if (!storedAccessToken) {
+            clearAuth();
+            return;
           }
         } catch (error) {
-          console.error("Failed to refresh access token:", error);
-          clearAuth();
-          clearUser();
+          console.error("❌ Ошибка парсинга auth-storage:", error);
+          return;
         }
-      } else {
+      }
+
+      if (!storedAccessToken) {
         console.log("ℹ️ No tokens found, skipping auth initialization.");
-        console.log(`Error not found token: ${accessToken}`);
+        return;
+      }
+
+      try {
+        const response = await axiosInstance.get("/auth/refresh-tokens", {
+          withCredentials: true,
+        });
+        const newAccessToken = response.data.accessToken;
+        console.log(`🔄 Новый access token: ${newAccessToken}`);
+
+        if (newAccessToken) {
+          setAuth(newAccessToken);
+          console.log(`✅ Access token обновлён: ${newAccessToken}`);
+
+          const userResponse = await axiosInstance.get("/user/info/me", {
+            headers: {
+              Authorization: `${newAccessToken}`,
+            },
+          });
+          setUser(userResponse.data);
+          console.log("✅ User data обновлены:", userResponse.data);
+        } else {
+          throw new Error("❌ Сервер не вернул access token.");
+        }
+      } catch (error) {
+        console.error("❌ Ошибка при обновлении токена:", error);
+        clearAuth();
+        clearUser();
       }
     };
 
