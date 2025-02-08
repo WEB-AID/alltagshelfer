@@ -1,4 +1,3 @@
-// src/widgets/AuthInitializer/AuthInitializer.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -6,8 +5,6 @@ import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { axiosInstance } from "@/shared/api/axios";
 import { useUserStore } from "@/entities/User/model/userStore";
 import { usePathname } from "next/navigation";
-
-// const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const AuthInitializer = () => {
   const pathname = usePathname();
@@ -20,9 +17,7 @@ export const AuthInitializer = () => {
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === "auth-storage") {
-        console.log(
-          "🔄 Данные авторизации изменены в другой вкладке. Обновляем Zustand..."
-        );
+        console.log("Данные авториз изм в другой вкладке.Обновляем Zustand");
 
         const storedAuth = localStorage.getItem("auth-storage");
 
@@ -62,9 +57,7 @@ export const AuthInitializer = () => {
 
   useEffect(() => {
     if (pathname === "/auth/google-success") {
-      console.log(
-        "🚫 Находимся на /auth/google-success, пропускаем refresh токенов."
-      );
+      console.log("🚫 мы на /auth/google-success, пропускаем refresh токенов.");
       return;
     }
 
