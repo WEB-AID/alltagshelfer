@@ -1,7 +1,11 @@
 "use client";
 
-import Image from "next/image";
+import { useLayoutEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { verifyGoogleToken } from "@/shared/api/googleAuth";
+import { useAuthStore } from "@/entities/Auth/model/authStore";
+import { useUserStore } from "@/entities/User/model/userStore";
+import { axiosInstance } from "@/shared/api/axios";
 import {
   Dialog,
   DialogContent,
@@ -9,14 +13,51 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useGoogleAuth } from "@/shared/lib/hooks/useGoogleAuth";
+import Image from "next/image";
 
 export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
-  useGoogleAuth(onSuccess);
+  // useGoogleAuth(onSuccess);
 
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
+
+  const setAuth = useAuthStore((state) => state.setAuth);
+  const setUser = useUserStore((state) => state.setUser);
+
+  useLayoutEffect(() => {
+    const handleAuth = async () => {
+      if (token) {
+        try {
+          const accessToken = await verifyGoogleToken(token);
+
+          if (accessToken) {
+            setAuth(accessToken);
+            console.log("Все ок перенаправляем на главную токен:", accessToken);
+
+            const userResponse = await axiosInstance.get("user/info/me", {
+              headers: {
+                Authorization: `${accessToken}`,
+              },
+            });
+
+            setUser(userResponse.data);
+
+            onSuccess?.();
+            router.push("/");
+          } else {
+            console.error("Ошибка при проверке access токена:", accessToken);
+          }
+        } catch (error) {
+          console.error("Ошибка при проверке токена:", error);
+          router.push("/auth/error"); // редирект на страницу ошибки
+        }
+      }
+    };
+
+    handleAuth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!token) {
     return (
