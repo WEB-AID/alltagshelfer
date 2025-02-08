@@ -11,14 +11,7 @@ export const AuthInitializer = () => {
   const pathname = usePathname();
   const setUser = useUserStore((state) => state.setUser);
   const clearUser = useUserStore((state) => state.clearUser);
-  const {
-    setAuth,
-    clearAuth,
-    setLoadingAuth,
-    clearAuthenticated,
-    accessToken,
-    isLoadingAuth,
-  } = useAuthStore();
+  const { accessToken, setAuth, clearAuth } = useAuthStore();
 
   const [isRehydrated, setIsRehydrated] = useState(false);
 
@@ -27,14 +20,11 @@ export const AuthInitializer = () => {
       if (event.key === "auth-storage") {
         const storedAuth = localStorage.getItem("auth-storage");
 
-        if (storedAuth && !isLoadingAuth) {
+        if (storedAuth) {
           try {
             const parsed = JSON.parse(storedAuth);
             const storedAccessToken = parsed.state.accessToken;
-            if (!storedAccessToken) {
-              clearAuth();
-            }
-            if (storedAccessToken !== accessToken && storedAccessToken) {
+            if (storedAccessToken !== accessToken) {
               setAuth(storedAccessToken);
             } else if (!storedAccessToken) {
               clearAuth();
@@ -49,6 +39,17 @@ export const AuthInitializer = () => {
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const hydrateStore = async () => {
+      if (useAuthStore.persist?.rehydrate) {
+        await useAuthStore.persist.rehydrate(); // Явно вызываем rehydrate
+      }
+      setIsRehydrated(true);
+    };
+
+    hydrateStore();
   }, []);
 
   useEffect(() => {
@@ -82,19 +83,12 @@ export const AuthInitializer = () => {
       }
 
       try {
-        setLoadingAuth(true);
-
         const newAccessToken = await fetchNewTokens();
-        console.log("await fetchNewTokens()");
 
         if (newAccessToken) {
-          setAuth(newAccessToken);
-          console.log("await fetchUserInfo()");
           const userResponse = await fetchUserInfo();
-
-          console.log("setAuth(newAccessToken)");
+          setAuth(newAccessToken);
           setUser(userResponse);
-          console.log("setUser(userResponse)");
         } else {
           throw new Error("❌ Server did not returned access token.");
         }
@@ -102,8 +96,6 @@ export const AuthInitializer = () => {
         console.error("❌ Refresh-tokens update error:", error);
         clearAuth();
         clearUser();
-      } finally {
-        setLoadingAuth(false);
       }
     };
 
@@ -112,19 +104,6 @@ export const AuthInitializer = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRehydrated]);
-
-  useEffect(() => {
-    clearAuthenticated();
-    const hydrateStore = async () => {
-      if (useAuthStore.persist?.rehydrate) {
-        await useAuthStore.persist.rehydrate(); // Явно вызываем rehydrate
-      }
-      setIsRehydrated(true);
-    };
-
-    hydrateStore();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return null;
 };
