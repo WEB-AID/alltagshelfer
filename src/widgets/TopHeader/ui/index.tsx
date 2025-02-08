@@ -1,6 +1,6 @@
 import { AuthDialog } from "@/features/auth";
 import { DropdownTopMenu } from "@/shared/ui";
-import { AuthInitializer } from "@/widgets/AuthInitializer/AuthInitializer";
+import { AuthInitializer } from "@/features/auth/model/AuthInitializer/AuthInitializer";
 
 export function TopHeader() {
   return (

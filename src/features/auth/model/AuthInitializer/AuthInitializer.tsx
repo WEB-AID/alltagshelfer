@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAuthStore } from "@/entities/Auth/model/authStore";
-import { axiosInstance } from "@/shared/api/axios";
-import { useUserStore } from "@/entities/User/model/userStore";
 import { usePathname } from "next/navigation";
+import { useAuthStore } from "@/entities/Auth/model/authStore";
+import { useUserStore } from "@/entities/User/model/userStore";
+import { fetchNewTokens } from "../fetchNewTokens";
+import { fetchUserInfo } from "../fetchUserInfo";
 
 export const AuthInitializer = () => {
   const pathname = usePathname();
@@ -17,8 +18,6 @@ export const AuthInitializer = () => {
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === "auth-storage") {
-        console.log("Данные авториз изм в другой вкладке.Обновляем Zustand");
-
         const storedAuth = localStorage.getItem("auth-storage");
 
         if (storedAuth) {
@@ -31,7 +30,7 @@ export const AuthInitializer = () => {
               clearAuth();
             }
           } catch (error) {
-            console.error("❌ Ошибка парсинга auth-storage:", error);
+            console.error("❌ Parsing error with auth-storage:", error);
           }
         }
       }
@@ -44,12 +43,10 @@ export const AuthInitializer = () => {
 
   useEffect(() => {
     const hydrateStore = async () => {
-      console.log("⏳ Начинаем гидратацию Zustand...");
       if (useAuthStore.persist?.rehydrate) {
         await useAuthStore.persist.rehydrate(); // Явно вызываем rehydrate
       }
       setIsRehydrated(true);
-      console.log("✅ Гидратация завершена.");
     };
 
     hydrateStore();
@@ -57,13 +54,12 @@ export const AuthInitializer = () => {
 
   useEffect(() => {
     if (pathname === "/auth/google-success") {
-      console.log("🚫 мы на /auth/google-success, пропускаем refresh токенов.");
+      console.log("🚫 Skip refresh-tokens. OAuth tech page.");
       return;
     }
 
     const refreshAccessToken = async () => {
       const storedAuth = localStorage.getItem("auth-storage");
-
       let storedAccessToken: string | null = null;
 
       if (storedAuth) {
@@ -76,39 +72,28 @@ export const AuthInitializer = () => {
             return;
           }
         } catch (error) {
-          console.error("❌ Ошибка парсинга auth-storage:", error);
+          console.error("❌ Parsing error with auth-storage:", error);
           return;
         }
       }
 
       if (!storedAccessToken) {
-        console.log("ℹ️ No tokens found, skipping auth initialization.");
+        console.log("🚫 No tokens found, skipping auth initialization.");
         return;
       }
 
       try {
-        const response = await axiosInstance.get("/auth/refresh-tokens", {
-          withCredentials: true,
-        });
-        const newAccessToken = response.data.accessToken;
-        console.log(`🔄 Новый access token: ${newAccessToken}`);
+        const newAccessToken = await fetchNewTokens();
 
         if (newAccessToken) {
+          const userResponse = await fetchUserInfo();
           setAuth(newAccessToken);
-          console.log(`✅ Access token обновлён: ${newAccessToken}`);
-
-          const userResponse = await axiosInstance.get("/user/info/me", {
-            headers: {
-              Authorization: `${newAccessToken}`,
-            },
-          });
-          setUser(userResponse.data);
-          console.log("✅ User data обновлены:", userResponse.data);
+          setUser(userResponse);
         } else {
-          throw new Error("❌ Сервер не вернул access token.");
+          throw new Error("❌ Server did not returned access token.");
         }
       } catch (error) {
-        console.error("❌ Ошибка при обновлении токена:", error);
+        console.error("❌ Refresh-tokens update error:", error);
         clearAuth();
         clearUser();
       }
