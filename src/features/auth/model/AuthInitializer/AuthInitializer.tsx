@@ -11,8 +11,14 @@ export const AuthInitializer = () => {
   const pathname = usePathname();
   const setUser = useUserStore((state) => state.setUser);
   const clearUser = useUserStore((state) => state.clearUser);
-  const { setAuth, clearAuth, setLoadingAuth, clearAuthenticated } =
-    useAuthStore();
+  const {
+    setAuth,
+    clearAuth,
+    setLoadingAuth,
+    clearAuthenticated,
+    accessToken,
+    isLoadingAuth,
+  } = useAuthStore();
 
   const [isRehydrated, setIsRehydrated] = useState(false);
 
@@ -21,18 +27,18 @@ export const AuthInitializer = () => {
       if (event.key === "auth-storage") {
         const storedAuth = localStorage.getItem("auth-storage");
 
-        if (storedAuth) {
+        if (storedAuth && !isLoadingAuth) {
           try {
             const parsed = JSON.parse(storedAuth);
             const storedAccessToken = parsed.state.accessToken;
             if (!storedAccessToken) {
               clearAuth();
             }
-            // if (storedAccessToken !== accessToken && storedAccessToken) {
-            //   setAuth(storedAccessToken);
-            // } else if (!storedAccessToken) {
-            //   clearAuth();
-            // }
+            if (storedAccessToken !== accessToken && storedAccessToken) {
+              setAuth(storedAccessToken);
+            } else if (!storedAccessToken) {
+              clearAuth();
+            }
           } catch (error) {
             console.error("❌ Parsing error with auth-storage:", error);
           }
