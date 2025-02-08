@@ -13,7 +13,7 @@ export const AuthInitializer = () => {
   const pathname = usePathname();
   const setUser = useUserStore((state) => state.setUser);
   const clearUser = useUserStore((state) => state.clearUser);
-  const { setAuth, clearAuth } = useAuthStore();
+  const { accessToken, setAuth, clearAuth } = useAuthStore();
 
   const [isRehydrated, setIsRehydrated] = useState(false);
 
@@ -24,16 +24,15 @@ export const AuthInitializer = () => {
           "🔄 Данные авторизации изменены в другой вкладке. Обновляем Zustand..."
         );
 
-        // Обновляем состояние из localStorage
         const storedAuth = localStorage.getItem("auth-storage");
-        // 1. Was AccessToken and now no. +++
-        // 2. Was no AccessToken and now it is
-        // 3. Was AccessToken and again it is
 
         if (storedAuth) {
           try {
             const parsed = JSON.parse(storedAuth);
-            if (!parsed.state.accessToken) {
+            const storedAccessToken = parsed.state.accessToken;
+            if (storedAccessToken !== accessToken) {
+              setAuth(storedAccessToken);
+            } else if (!storedAccessToken) {
               clearAuth();
             }
           } catch (error) {
