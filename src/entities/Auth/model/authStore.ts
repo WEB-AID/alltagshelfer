@@ -6,6 +6,7 @@ interface AuthState {
   isAuthenticated: boolean;
   setAuth: (token: string) => void;
   clearAuth: () => void;
+  clearAuthenticated: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -15,6 +16,7 @@ export const useAuthStore = create<AuthState>()(
       accessToken: null,
       setAuth: (token) => set({ isAuthenticated: true, accessToken: token }),
       clearAuth: () => set({ isAuthenticated: false, accessToken: null }),
+      clearAuthenticated: () => set({ isAuthenticated: false }),
     }),
     {
       name: "auth-storage",

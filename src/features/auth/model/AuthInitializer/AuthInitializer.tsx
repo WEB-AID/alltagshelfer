@@ -13,7 +13,7 @@ export const AuthInitializer = () => {
   const pathname = usePathname();
   const setUser = useUserStore((state) => state.setUser);
   const clearUser = useUserStore((state) => state.clearUser);
-  const { accessToken, setAuth, clearAuth } = useAuthStore();
+  const { setAuth, clearAuth } = useAuthStore();
 
   const [isRehydrated, setIsRehydrated] = useState(false);
 
@@ -30,11 +30,14 @@ export const AuthInitializer = () => {
           try {
             const parsed = JSON.parse(storedAuth);
             const storedAccessToken = parsed.state.accessToken;
-            if (storedAccessToken !== accessToken) {
-              setAuth(storedAccessToken);
-            } else if (!storedAccessToken) {
+            if (!storedAccessToken) {
               clearAuth();
             }
+            // if (storedAccessToken !== accessToken) {
+            //   setAuth(storedAccessToken);
+            // } else if (!storedAccessToken) {
+            //   clearAuth();
+            // }
           } catch (error) {
             console.error("❌ Ошибка парсинга auth-storage:", error);
           }
