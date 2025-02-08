@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
   Dialog,
@@ -8,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import Image from "next/image";
 import { useGoogleAuth } from "@/shared/lib/hooks/useGoogleAuth";
 
 export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
