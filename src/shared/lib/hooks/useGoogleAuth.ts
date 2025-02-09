@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { fetchGoogleAuth } from "@/shared/api/fetchGoogleAuth";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
 import { fetchUserInfo } from "@/shared/api/fetchUserInfo";
+import { verifyGoogleToken } from "@/shared/api/googleAuth";
 
 export const useGoogleAuth = (onSuccess?: () => void) => {
   const router = useRouter();
@@ -14,54 +14,33 @@ export const useGoogleAuth = (onSuccess?: () => void) => {
   const setUser = useUserStore((state) => state.setUser);
 
   useEffect(() => {
-    // if (token) {
-    //   try {
-    //     const accessToken = await verifyGoogleToken(token);
+    if (!token) return;
 
-    //     if (accessToken) {
-    //       setAuth(accessToken);
-    //       console.log("Все ок перенаправляем на главную токен:", accessToken);
-
-    //       const userResponse = await axiosInstance.get("user/info/me", {
-    //         headers: {
-    //           Authorization: `${accessToken}`,
-    //         },
-    //       });
-
-    //       setUser(userResponse.data);
-
-    //       onSuccess?.();
-    //       router.push("/");
-    //     } else {
-    //       console.error("Ошибка при проверке access токена:", accessToken);
-    //     }
-    //   } catch (error) {
-    //     console.error("Ошибка при проверке токена:", error);
-    //     router.push("/auth/error"); // редирект на страницу ошибки
-    //   }
-    // }
     const handleAuth = async () => {
-      if (!token) return;
-
       try {
-        const accessToken = await fetchGoogleAuth(token);
+        const accessToken = await verifyGoogleToken(token);
 
-        if (accessToken) {
-          const userResponse = await fetchUserInfo();
-          setAuth(accessToken);
-          setUser(userResponse);
-          onSuccess?.();
-          router.push("/");
-        } else {
+        if (!accessToken) {
           console.error("Ошибка при проверке access токена:", accessToken);
+          router.push("/auth/error");
+          return;
         }
+
+        const userResponse = await fetchUserInfo();
+
+        setAuth(accessToken);
+        setUser(userResponse);
+
+        onSuccess?.();
+        router.push("/");
       } catch (error) {
         console.error("Ошибка при проверке токена:", error);
         router.push("/auth/error");
       }
     };
 
-    handleAuth();
+    void handleAuth(); // Запускаем функцию без ожидания
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [token]); // Добавляем зависимость token
 };
