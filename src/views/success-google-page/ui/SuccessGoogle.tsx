@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { verifyGoogleToken } from "@/shared/api/googleAuth";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
-import { axiosInstance } from "@/shared/api/axios";
+// import { axiosInstance } from "@/shared/api/axios";
 import {
   Dialog,
   DialogContent,
@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import Image from "next/image";
+import { fetchUserInfo } from "@/shared/api/fetchUserInfo";
 
 export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
   // useGoogleAuth(onSuccess);
@@ -35,13 +36,9 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
             setAuth(accessToken);
             console.log("Все ок перенаправляем на главную токен:", accessToken);
 
-            const userResponse = await axiosInstance.get("user/info/me", {
-              headers: {
-                Authorization: `${accessToken}`,
-              },
-            });
+            const userResponse = await fetchUserInfo();
 
-            setUser(userResponse.data);
+            setUser(userResponse);
 
             onSuccess?.();
             router.push("/");
