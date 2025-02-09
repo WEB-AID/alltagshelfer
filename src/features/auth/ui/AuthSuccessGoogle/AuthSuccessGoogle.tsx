@@ -2,8 +2,11 @@
 
 import { useLayoutEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import Image from "next/image";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
+import { fetchUserInfo } from "@/shared/api/fetchUserInfo";
+import { fetchGoogleAuth } from "@/shared/api/fetchGoogleAuth";
 import {
   Dialog,
   DialogContent,
@@ -11,9 +14,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import Image from "next/image";
-import { fetchUserInfo } from "@/shared/api/fetchUserInfo";
-import { fetchGoogleAuth } from "@/shared/api/fetchGoogleAuth";
 
 export function AuthSuccessGoogle() {
   const router = useRouter();
@@ -41,7 +41,7 @@ export function AuthSuccessGoogle() {
           }
         } catch (error) {
           console.error("Ошибка при проверке токена:", error);
-          router.push("/auth/error"); // редирект на страницу ошибки
+          router.push("/auth/error");
         }
       }
     };
@@ -53,13 +53,13 @@ export function AuthSuccessGoogle() {
   if (!token) {
     return (
       <div className="h-screen flex flex-col items-center justify-center text-center text-red-500">
-        <h1 className="text-4xl font-bold">403 – Доступ запрещён</h1>
-        <p className="text-lg mt-2">Упс... Видимо чтото пошло не по плану.</p>
+        <h1 className="text-4xl font-bold">403 – Access denied</h1>
+        <p className="text-lg mt-2">Oops... Something went wrong.</p>
         <button
           onClick={() => router.push("/")}
           className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
         >
-          Вернуться на главную
+          Return to main page
         </button>
       </div>
     );
