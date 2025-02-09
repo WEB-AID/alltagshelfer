@@ -20,7 +20,7 @@ export function AuthDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
+        <Button variant="outline">Login or Register</Button>
       </DialogTrigger>
       <DialogContent className="w-min">
         <DialogHeader>

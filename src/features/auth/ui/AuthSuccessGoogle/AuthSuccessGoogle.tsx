@@ -22,6 +22,7 @@ export function AuthSuccessGoogle() {
 
   const setAuth = useAuthStore((state) => state.setAuth);
   const setUser = useUserStore((state) => state.setUser);
+  // const user = useUserStore((state) => state.user);
 
   useLayoutEffect(() => {
     const handleAuth = async () => {
@@ -35,6 +36,8 @@ export function AuthSuccessGoogle() {
             setUser(userResponse);
 
             console.log("Все ок перенаправляем на главную токен:", accessToken);
+            // console.log(`user`, user);
+
             router.push("/");
           } else {
             console.error("Ошибка при проверке access токена:", accessToken);
