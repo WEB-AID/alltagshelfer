@@ -16,7 +16,7 @@ import {
 import Image from "next/image";
 import { fetchUserInfo } from "@/shared/api/fetchUserInfo";
 
-export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
+export default function AuthSuccess() {
   // useGoogleAuth(onSuccess);
 
   const router = useRouter();
@@ -40,7 +40,7 @@ export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
 
             setUser(userResponse);
 
-            onSuccess?.();
+            // onSuccess?.();
             router.push("/");
           } else {
             console.error("Ошибка при проверке access токена:", accessToken);
