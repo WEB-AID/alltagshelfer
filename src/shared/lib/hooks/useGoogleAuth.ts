@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { fetchGoogleAuth } from "@/shared/api/fetchGoogleAuth";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
@@ -13,7 +13,7 @@ export const useGoogleAuth = (onSuccess?: () => void) => {
   const setAuth = useAuthStore((state) => state.setAuth);
   const setUser = useUserStore((state) => state.setUser);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // if (token) {
     //   try {
     //     const accessToken = await verifyGoogleToken(token);
