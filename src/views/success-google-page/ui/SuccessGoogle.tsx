@@ -2,8 +2,10 @@
 
 import { useLayoutEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { verifyGoogleToken } from "@/shared/api/googleAuth";
 import { useAuthStore } from "@/entities/Auth/model/authStore";
 import { useUserStore } from "@/entities/User/model/userStore";
+import { axiosInstance } from "@/shared/api/axios";
 import {
   Dialog,
   DialogContent,
@@ -12,10 +14,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import Image from "next/image";
-import { fetchUserInfo } from "@/shared/api/fetchUserInfo";
-import { fetchGoogleAuth } from "@/shared/api/fetchGoogleAuth";
 
-export default function AuthSuccess() {
+export default function AuthSuccess({ onSuccess }: { onSuccess?: () => void }) {
   // useGoogleAuth(onSuccess);
 
   const router = useRouter();
@@ -29,15 +29,21 @@ export default function AuthSuccess() {
     const handleAuth = async () => {
       if (token) {
         try {
-          const accessToken = await fetchGoogleAuth(token);
+          const accessToken = await verifyGoogleToken(token);
 
           if (accessToken) {
-            const userResponse = await fetchUserInfo();
             setAuth(accessToken);
-            setUser(userResponse);
             console.log("Все ок перенаправляем на главную токен:", accessToken);
 
-            // onSuccess?.();
+            const userResponse = await axiosInstance.get("user/info/me", {
+              headers: {
+                Authorization: `${accessToken}`,
+              },
+            });
+
+            setUser(userResponse.data);
+
+            onSuccess?.();
             router.push("/");
           } else {
             console.error("Ошибка при проверке access токена:", accessToken);
