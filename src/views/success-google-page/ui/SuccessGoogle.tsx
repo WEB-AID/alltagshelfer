@@ -33,10 +33,9 @@ export default function AuthSuccess() {
           const accessToken = await verifyGoogleToken(token);
 
           if (accessToken) {
+            const userResponse = await fetchUserInfo();
             setAuth(accessToken);
             console.log("Все ок перенаправляем на главную токен:", accessToken);
-
-            const userResponse = await fetchUserInfo();
 
             setUser(userResponse);
 
