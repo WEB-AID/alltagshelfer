@@ -15,7 +15,7 @@ import Image from "next/image";
 import { fetchUserInfo } from "@/shared/api/fetchUserInfo";
 import { fetchGoogleAuth } from "@/shared/api/fetchGoogleAuth";
 
-export default function AuthSuccessGoogle() {
+export function AuthSuccessGoogle() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");

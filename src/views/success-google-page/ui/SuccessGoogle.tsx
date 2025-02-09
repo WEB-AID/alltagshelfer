@@ -1,4 +1,4 @@
-import AuthSuccessGoogle from "@/features/auth/ui/AuthSuccessGoogle/AuthSuccessGoogle";
+import { AuthSuccessGoogle } from "@/features/auth";
 
 export default function AuthSuccess() {
   return <AuthSuccessGoogle />;
