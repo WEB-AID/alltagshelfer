@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/shared/api/axios";
 
+// Тип ответа от сервера
 interface UserResponse {
   id: string;
   email: string;
@@ -8,7 +9,8 @@ interface UserResponse {
   roles: ["USER" | "ADMIN"];
 }
 
-type FindUserData = string;
+// Тип данных для поиска
+type FindUserData = string; // ID или email пользователя
 
 export const useFindUser = () => {
   return useMutation<UserResponse, Error, FindUserData>({
@@ -16,6 +18,7 @@ export const useFindUser = () => {
       const response = await axiosInstance.get<UserResponse>(
         `user/${idOrEmail}`
       );
+
       return response.data;
     },
     onSuccess: (data) => {
